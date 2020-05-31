@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace LightWay
 {
-    class Controllable : IComponent
+    class ControllableC : IComponent
     {
-        public Type type { get; } = typeof(Controllable);
+        public Type type { get; } = typeof(ControllableC);
     }
 }

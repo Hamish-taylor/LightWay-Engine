@@ -11,8 +11,8 @@ namespace LightWay
 
         public RenderSystem(SpriteBatch spriteBatch)
         {
-            components.Add(typeof(Position));
-            components.Add(typeof(Texture));
+            components.Add(typeof(PositionC));
+            components.Add(typeof(TextureC));
             this.spriteBatch = spriteBatch;
             Init();
         }
@@ -49,7 +49,7 @@ namespace LightWay
         }
         public override void ProcessEntity()
         {
-            spriteBatch.Draw(((Texture)workingEntity[typeof(Texture)]).texture, ((Position)workingEntity[typeof(Position)]).position,Color.White);
+            spriteBatch.Draw(((TextureC)workingEntity[typeof(TextureC)]).texture, ((PositionC)workingEntity[typeof(PositionC)]).position,Color.White);
         }
 
 

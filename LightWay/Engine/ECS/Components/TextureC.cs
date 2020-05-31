@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace LightWay
 {
-    class Position : IComponent
+    class TextureC : IComponent
     {
-        public Vector2 position;
+        public Texture2D texture { get; set; }
         public Type type { get; private set; }
 
-        public Position(Vector2 position)
-        {
-            this.position = position;
+        public TextureC(Texture2D texture)
+        {   
+            this.texture = texture;
             this.type = this.GetType();
         }
     }

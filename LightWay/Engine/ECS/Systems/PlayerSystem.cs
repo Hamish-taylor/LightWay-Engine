@@ -13,8 +13,8 @@ namespace LightWay
     {
         public PlayerSystem()
         {
-            components.Add(typeof(Position));
-            components.Add(typeof(Controllable));
+            components.Add(typeof(PositionC));
+            components.Add(typeof(ControllableC));
             components.Add(typeof(VelocityC));
             Init();
         }    
@@ -25,11 +25,11 @@ namespace LightWay
             if (Input.getKeyBoardKey(Keys.S)) ((VelocityC)workingEntity[typeof(VelocityC)]).velocity.Y += 1;
             if (Input.getKeyBoardKey(Keys.Space) && ((VelocityC)workingEntity[typeof(VelocityC)]).velocity.Y == 0) ((VelocityC)workingEntity[typeof(VelocityC)]).velocity.Y -= 20;
 
-            ((Position)workingEntity[typeof(Position)]).position += ((VelocityC)workingEntity[typeof(VelocityC)]).velocity;
+            ((PositionC)workingEntity[typeof(PositionC)]).position += ((VelocityC)workingEntity[typeof(VelocityC)]).velocity;
 
             //DRAG
             //PROBABLY SHOULD SPLIT THIS INTO ITS OWN SYSTEM
-            ((Position)workingEntity[typeof(Position)]).position -= ((Position)workingEntity[typeof(Position)]).position / 13;
+            ((PositionC)workingEntity[typeof(PositionC)]).position -= ((PositionC)workingEntity[typeof(PositionC)]).position / 13;
         }
 
     }

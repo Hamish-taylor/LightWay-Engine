@@ -43,8 +43,8 @@ namespace LightWay
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
             player = new PlayerDEPRICATED(Content.Load<Texture2D>("graphics/Bombsquad Black"),graphics);
-            entityController.CreateEntity(new Position(new Vector2(100,100)), new Texture((Content.Load<Texture2D>("graphics/Bombsquad Black"))));
-            entityController.CreateEntity(new Position(new Vector2(50, 50)), new Controllable(), new Texture((Content.Load<Texture2D>("graphics/Bombsquad Black"))),new VelocityC(),new GravityC(new Vector2(0, 1)));
+            entityController.CreateEntity(new PositionC(new Vector2(100,100)), new TextureC((Content.Load<Texture2D>("graphics/Bombsquad Black"))));
+            entityController.CreateEntity(new PositionC(new Vector2(50, 50)), new ControllableC(), new TextureC((Content.Load<Texture2D>("graphics/Bombsquad Black"))),new VelocityC(),new GravityC(new Vector2(0, 1)));
             player.scale = 0.5f;
 
             // TODO: use this.Content to load your game content here

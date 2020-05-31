@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using LightWay;
+using LightWay.Engine.ECS.Components;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -42,7 +44,7 @@ namespace LightWay
             spriteBatch = new SpriteBatch(GraphicsDevice);
             player = new PlayerDEPRICATED(Content.Load<Texture2D>("graphics/Bombsquad Black"),graphics);
             entityController.CreateEntity(new Position(new Vector2(100,100)), new Texture((Content.Load<Texture2D>("graphics/Bombsquad Black"))));
-            entityController.CreateEntity(new Position(new Vector2(50, 50)), new Texture((Content.Load<Texture2D>("graphics/Bombsquad Black"))));
+            entityController.CreateEntity(new Position(new Vector2(50, 50)), new Controllable(), new Texture((Content.Load<Texture2D>("graphics/Bombsquad Black"))),new VelocityC(),new GravityC(new Vector2(0, 1)));
             player.scale = 0.5f;
 
             // TODO: use this.Content to load your game content here
@@ -64,9 +66,11 @@ namespace LightWay
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == Input.getGamePadKey() || Input.getKeyBoardKey(Keys.Escape))
                 Exit();
-
+            entityController.GeneralUpdate(gameTime);
+            
             player.Do();
             //base.IsMouseVisible = true;
             base.Update(gameTime);
@@ -82,7 +86,7 @@ namespace LightWay
             spriteBatch.Begin();
             spriteBatch.Draw(player.Texture,new Rectangle((int)player.position.X, (int)player.position.Y, (int)player.width, (int)player.height),Color.White);
             spriteBatch.End();
-            entityController.Update(gameTime);
+            entityController.RenderingUpdate(gameTime);
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);

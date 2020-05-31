@@ -9,7 +9,7 @@ namespace LightWay
 {
     class Position : IComponent
     {
-        public Vector2 position {get; set;}
+        public Vector2 position;
         public Type type { get; private set; }
 
         public Position(Vector2 position)

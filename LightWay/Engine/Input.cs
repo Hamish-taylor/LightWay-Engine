@@ -3,9 +3,11 @@ using System.Linq;
 
 namespace LightWay
 {
+    /// <summary>
+    /// A helper class for getting input from a keyboard or controller
+    /// </summary>
     class Input
     {
-
         /// <summary>
         ///Returns the current gamePadKey
         /// </summary>
@@ -28,9 +30,5 @@ namespace LightWay
         {
             return Keyboard.GetState().GetPressedKeys().Contains(key);
         }
-
-
-
-
     }
 }

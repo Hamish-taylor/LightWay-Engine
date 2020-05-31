@@ -3,10 +3,18 @@ using System.Collections.Generic;
 
 namespace LightWay
 {
-    class ComponentIndexPool
+    /// <summary>
+    /// Stores a Pool of components, Aswell as helper methods to add and get
+    /// </summary>
+    public class ComponentIndexPool
     {
         private Dictionary<Type, Dictionary<int, IComponent>> pool { get; set; } = new Dictionary<Type, Dictionary<int, IComponent>>();
 
+        /// <summary>
+        /// Returns all components in the pool of a given type.
+        /// </summary>
+        /// <param name="type"> The type of component you want to retreve</param>
+        /// <returns>A dictonary of components with their entity ID's as keys</returns>
         public Dictionary<int, IComponent> GetAll(Type type)
         {
             Dictionary<int, IComponent> d = new Dictionary<int,IComponent>();
@@ -16,11 +24,15 @@ namespace LightWay
             }
             return d;
         } 
-
+        /// <summary>
+        /// Inserts a component into the pool
+        /// </summary>
+        /// <param name="component"> Component to insert</param>
+        /// <param name="index">The ID of the entity that this component belongs to</param>
         public void InsertComponent(IComponent component,int index)
         {
             Type type = component.type;
-
+            Console.WriteLine(type);
             if (pool.ContainsKey(type))
             {
                 if (pool[type].ContainsKey(index)) pool[type][index] = component;

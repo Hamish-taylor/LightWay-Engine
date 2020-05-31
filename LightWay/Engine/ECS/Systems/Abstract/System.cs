@@ -8,12 +8,30 @@ using System.Threading.Tasks;
 
 namespace LightWay
 {
+    /// <summary>
+    /// The base class all Systems must extend
+    /// </summary>
     abstract class System : ISystem
     {
+        /// <summary>
+        /// A list of the components the system operates on
+        /// </summary>
         public List<Type> components { get; set; } = new List<Type>();
-
+        /// <summary>
+        /// Stores the current components that are being worked on
+        /// </summary>
         public Dictionary<Type, IComponent> workingEntity { get; private set; } = new Dictionary<Type, IComponent>();
        
+        public System()
+        {
+
+        }
+        /// <summary>
+        /// The main update method. 
+        /// It finds a set of aplicable components and then adds them to the working entity
+        /// </summary>
+        /// <param name="gameTime">The games <c>GameTime</c></param>
+        /// <param name="CIP">The ComponentIndexPool you want to retreve your entitys from</param>
         public virtual void update(GameTime gameTime, ComponentIndexPool CIP)
         {
             //Looping through a key set of position components
@@ -41,11 +59,15 @@ namespace LightWay
                     workingEntity[components[0]] = first;
                     ProcessEntity();
                 }
-            }
+            }        
         }
-        public virtual void ProcessEntity()
-        {
-        }
+        /// <summary>
+        /// Where your system specific processing code belongs 
+        /// </summary>
+        public abstract void ProcessEntity();
+        /// <summary>
+        /// Populates the working entity with the apropriate types
+        /// </summary>
         public virtual void Init()
         {
             foreach (Type t in components)

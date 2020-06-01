@@ -18,7 +18,7 @@ namespace LightWay.Engine.ECS.Systems
         }
         public override void ProcessEntity()
         {
-            if (GetComponent<PositionC>().position.Y > 200) GetComponent<VelocityC>().velocity.Y = 0;
+            if (((PositionC)workingEntity[typeof(PositionC)]).position.Y > 200) ((VelocityC)workingEntity[typeof(VelocityC)]).velocity.Y = 0;
         }
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace LightWay
 {
@@ -14,6 +15,8 @@ namespace LightWay
         SpriteBatch spriteBatch;
         PlayerDEPRICATED[] player = new PlayerDEPRICATED[1000];
         EntityController entityController;
+
+        private double keyUpdateTimer = 0;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -42,10 +45,10 @@ namespace LightWay
             // Create a new SpriteBatch, which can be used to draw textures.
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            for (int i = 0; i < 10000; i++)
+            entityController.CreateEntity(new PositionC(new Vector2(50, 50)), new ControllableC(), new TextureC((Content.Load<Texture2D>("graphics/Bombsquad Black"))), new VelocityC(), new GravityC(new Vector2(0, 1)), new ColliderC());
+            for (int i = 0; i < 20000; i++)
             {
-                entityController.CreateEntity(new PositionC(new Vector2(50, 50)), new ControllableC(), new TextureC((Content.Load<Texture2D>("graphics/Bombsquad Black"))), new VelocityC(), new GravityC(new Vector2(0, 1)), new ColliderC());
+                entityController.CreateEntity(new PositionC(new Vector2(50, 50)), new ControllableC(), new TextureC((Content.Load<Texture2D>("graphics/Bombsquad Black"))));
             }
             // TODO: use this.Content to load your game content here
         }
@@ -66,7 +69,12 @@ namespace LightWay
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-
+            keyUpdateTimer -= gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
+            if(keyUpdateTimer < -.1f)
+            {
+                Input.UpdateKeys();
+                keyUpdateTimer = 0;
+            }
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == Input.getGamePadKey() || Input.getKeyBoardKey(Keys.Escape))
                 Exit();
             entityController.GeneralUpdate(gameTime);

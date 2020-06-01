@@ -9,6 +9,11 @@ namespace LightWay
     class Input
     {
         /// <summary>
+        /// The prefered variable for accessing pressed keys.
+        /// This isnt updated every game loop for preformance.
+        /// </summary>
+        public static Keys[] keys { get; private set; } = new Keys[0];
+        /// <summary>
         ///Returns the current gamePadKey
         /// </summary>
         public static ButtonState getGamePadKey()
@@ -29,6 +34,13 @@ namespace LightWay
         public static bool getKeyBoardKey(Keys key)
         {
             return Keyboard.GetState().GetPressedKeys().Contains(key);
+        }
+        /// <summary>
+        /// This method will refresh the keys array with the currently held down keys
+        /// </summary>
+        public static void UpdateKeys()
+        {
+            keys = Keyboard.GetState().GetPressedKeys();
         }
     }
 }

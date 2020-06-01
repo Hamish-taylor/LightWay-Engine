@@ -26,8 +26,8 @@ namespace LightWay
         }
         public override void ProcessEntity()
         {
-            Texture = GetComponent<TextureC>();
-            Pos = GetComponent<PositionC>();
+            Texture = (TextureC)workingEntity[typeof(TextureC)];
+            Pos = (PositionC)workingEntity[typeof(PositionC)];
             float width = Texture.texture.Width * (float)Texture.scale;
             float height = Texture.texture.Height * (float)Texture.scale;
             spriteBatch.Draw(Texture.texture, new Rectangle((int)Pos.position.X, (int)Pos.position.Y, (int)width, (int)height), Color.White);

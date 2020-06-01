@@ -19,17 +19,17 @@ namespace LightWay
             components.Add(typeof(PositionC));
             components.Add(typeof(ControllableC));
             components.Add(typeof(VelocityC));
+            keys = Input.keys;
             Init();
         }    
         public override void ProcessEntity()
         {
-            keys = Input.getKeyBoardKeys();
-            Velocity = GetComponent<VelocityC>();
-            Position = GetComponent<PositionC>();
-
+            keys = Input.keys;
+            Velocity = (VelocityC)workingEntity[typeof(VelocityC)];
+            Position = (PositionC)workingEntity[typeof(PositionC)]; ;
+         
             if (keys.Contains(Keys.D)) Velocity.velocity.X += 1;
-            if (keys.Contains(Keys.A)) Velocity.velocity.X -= 1;
-            if (keys.Contains(Keys.S)) Velocity.velocity.Y += 1;
+            else if (keys.Contains(Keys.A)) Velocity.velocity.X -= 1;
             if (keys.Contains(Keys.Space) && Velocity.velocity.Y == 0) Velocity.velocity.Y -= 20;
 
             Position.position += Velocity.velocity;

@@ -20,7 +20,7 @@ namespace LightWay
         /// <summary>
         /// Stores the current components that are being worked on
         /// </summary>
-        private Dictionary<Type, IComponent> workingEntity = new Dictionary<Type, IComponent>();
+        public Dictionary<Type, IComponent> workingEntity = new Dictionary<Type, IComponent>();
        
         public System()
         {
@@ -47,7 +47,8 @@ namespace LightWay
                 bool foundAll = true;
                 for (int i = 1; i < components.Count; i++)
                 {
-                    if (!CIP.GetAll(components[i]).TryGetValue(id, out c))
+                    c = CIP.Get(components[i],id);
+                    if (c == null)
                     {
                         foundAll = false;
                         break;

@@ -11,8 +11,8 @@ namespace LightWay
             Init();
         }
         public override void ProcessEntity()
-        { 
-            GetComponent<VelocityC>().velocity += GetComponent<GravityC>().gravity;
+        {
+            ((VelocityC)workingEntity[typeof(VelocityC)]).velocity += ((GravityC)workingEntity[typeof(GravityC)]).gravity;
         }
     }
 }

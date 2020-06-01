@@ -9,7 +9,7 @@ namespace LightWay
     public class ComponentIndexPool
     {
         private Dictionary<Type, Dictionary<int, IComponent>> pool { get; set; } = new Dictionary<Type, Dictionary<int, IComponent>>();
-
+        private Dictionary<int, IComponent> d;
         /// <summary>
         /// Returns all components in the pool of a given type.
         /// </summary>
@@ -17,13 +17,20 @@ namespace LightWay
         /// <returns>A dictonary of components with their entity ID's as keys</returns>
         public Dictionary<int, IComponent> GetAll(Type type)
         {
-            Dictionary<int, IComponent> d = new Dictionary<int,IComponent>();
-            if(pool.ContainsKey(type))
-            {
-                pool.TryGetValue(type,out d);
-            }
+            d = new Dictionary<int,IComponent>();
+            d = pool[type];       
             return d;
-        } 
+        }
+
+        public IComponent Get(Type type,int id)
+        {   
+            
+                if(pool.ContainsKey(type) && pool[type].ContainsKey(id))
+                return pool[type][id];          
+                return null;
+
+            
+        }
         /// <summary>
         /// Inserts a component into the pool
         /// </summary>

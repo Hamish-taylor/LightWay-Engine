@@ -12,6 +12,7 @@ namespace LightWay
         public Texture2D texture { get; set; }
         public Type type { get; private set; }
 
+        public float scale { get; set; } = .2f;
         public TextureC(Texture2D texture)
         {   
             this.texture = texture;

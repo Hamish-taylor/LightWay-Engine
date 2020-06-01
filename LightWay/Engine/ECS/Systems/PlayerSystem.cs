@@ -11,6 +11,9 @@ namespace LightWay
 {
     class PlayerSystem : System
     {
+        private Keys[] keys;
+        private VelocityC Velocity;
+        private PositionC Position;
         public PlayerSystem()
         {
             components.Add(typeof(PositionC));
@@ -20,16 +23,20 @@ namespace LightWay
         }    
         public override void ProcessEntity()
         {
-            if (Input.getKeyBoardKey(Keys.D)) ((VelocityC)workingEntity[typeof(VelocityC)]).velocity.X += 1;
-            if (Input.getKeyBoardKey(Keys.A)) ((VelocityC)workingEntity[typeof(VelocityC)]).velocity.X -= 1;
-            if (Input.getKeyBoardKey(Keys.S)) ((VelocityC)workingEntity[typeof(VelocityC)]).velocity.Y += 1;
-            if (Input.getKeyBoardKey(Keys.Space) && ((VelocityC)workingEntity[typeof(VelocityC)]).velocity.Y == 0) ((VelocityC)workingEntity[typeof(VelocityC)]).velocity.Y -= 20;
+            keys = Input.getKeyBoardKeys();
+            Velocity = GetComponent<VelocityC>();
+            Position = GetComponent<PositionC>();
 
-            ((PositionC)workingEntity[typeof(PositionC)]).position += ((VelocityC)workingEntity[typeof(VelocityC)]).velocity;
+            if (keys.Contains(Keys.D)) Velocity.velocity.X += 1;
+            if (keys.Contains(Keys.A)) Velocity.velocity.X -= 1;
+            if (keys.Contains(Keys.S)) Velocity.velocity.Y += 1;
+            if (keys.Contains(Keys.Space) && Velocity.velocity.Y == 0) Velocity.velocity.Y -= 20;
+
+            Position.position += Velocity.velocity;
 
             //DRAG
             //PROBABLY SHOULD SPLIT THIS INTO ITS OWN SYSTEM
-            ((PositionC)workingEntity[typeof(PositionC)]).position -= ((PositionC)workingEntity[typeof(PositionC)]).position / 13;
+            Position.position -= Position.position / 13;
         }
 
     }

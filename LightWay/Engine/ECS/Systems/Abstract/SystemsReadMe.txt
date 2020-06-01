@@ -4,7 +4,7 @@ A system contains a list of Types, These are the components that your system req
 A typical System implementation consists of the following 
 	1. A constructor where you add the components that a system need to function. THE CONSTRUCTOR MUST ALWAYS CALL THE Init() FUNCTION (Last) FOR THE SYSTEM TO WORK
 	2. A ProcessEntity() Method where you write your system code
-		The following is an example of retreaving a component from the workingEntity: ((VelocityC)workingEntity[typeof(VelocityC)])
+		The following is an example of retreaving a component from the workingEntity: ((VelocityC)workingEntity[typeof(VelocityC)]) (THIS IS VERY COMBERSUM)
 		This retreves a VelocityC Component and casts is from a IComponent to VelocityC
 	3. An optional Update() Override
 		The job of the update method is to find an aplicable set of components from a single entity and add that information to the working entity to be processed by ProcessEntity

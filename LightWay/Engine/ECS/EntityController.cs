@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using LightWay.Engine.ECS.Systems;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -61,6 +62,7 @@ namespace LightWay
         {
             generalSystems.Add(new GravitySystem());
             generalSystems.Add(new PlayerSystem());
+            generalSystems.Add(new CollisionSystem());
             renderingSystems.Add(new RenderSystem(new SpriteBatch(graphicsDevice)));
         }
         /// <summary>

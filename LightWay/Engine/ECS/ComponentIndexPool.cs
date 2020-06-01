@@ -32,7 +32,6 @@ namespace LightWay
         public void InsertComponent(IComponent component,int index)
         {
             Type type = component.type;
-            Console.WriteLine(type);
             if (pool.ContainsKey(type))
             {
                 if (pool[type].ContainsKey(index)) pool[type][index] = component;

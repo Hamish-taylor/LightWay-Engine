@@ -57,10 +57,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Engine\ECS\ComponentIndexPool.cs" />
+    <Compile Include="Engine\ECS\Components\ColliderC.cs" />
     <Compile Include="Engine\ECS\Components\ControllableC.cs" />
     <Compile Include="Engine\ECS\Components\GravityC.cs" />
     <Compile Include="Engine\ECS\Components\VelocityC.cs" />
     <Compile Include="Engine\ECS\EntityController.cs" />
+    <Compile Include="Engine\ECS\Systems\CollisionSystem.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Engine\Input.cs" />
     <Compile Include="Engine\ECS\Systems\GravitySystem.cs" />

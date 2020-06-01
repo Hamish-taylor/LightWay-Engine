@@ -20,7 +20,7 @@ namespace LightWay
         /// <summary>
         /// Stores the current components that are being worked on
         /// </summary>
-        public Dictionary<Type, IComponent> workingEntity { get; private set; } = new Dictionary<Type, IComponent>();
+        private Dictionary<Type, IComponent> workingEntity = new Dictionary<Type, IComponent>();
        
         public System()
         {
@@ -34,18 +34,19 @@ namespace LightWay
         /// <param name="CIP">The ComponentIndexPool you want to retreve your entitys from</param>
         public virtual void update(GameTime gameTime, ComponentIndexPool CIP)
         {
+            IComponent first;
+            IComponent c = null;
             //Looping through a key set of position components
             foreach (var p in CIP.GetAll(components[0]))
             {
                 //get the first component
-                IComponent first = p.Value;
+                first = p.Value;
                 //get its entity id
                 int id = p.Key;
                 //see if the other components in components also contain a components for this entity
                 bool foundAll = true;
                 for (int i = 1; i < components.Count; i++)
                 {
-                    IComponent c = null;
                     if (!CIP.GetAll(components[i]).TryGetValue(id, out c))
                     {
                         foundAll = false;
@@ -75,5 +76,15 @@ namespace LightWay
                 workingEntity.Add(t, null);
             }
         }
+        /// <summary>
+        /// Used to get a component from the working entity
+        /// </summary>
+        /// <typeparam name="T">The Type of the component. Must be of type IComponent</typeparam>
+        /// <returns>The found component </returns>
+        public T GetComponent<T>() where T: IComponent
+        {
+            return ((T)workingEntity[typeof(T)]);
+        }
+
     }
 }

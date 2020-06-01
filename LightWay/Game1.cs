@@ -12,7 +12,7 @@ namespace LightWay
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        PlayerDEPRICATED player;
+        PlayerDEPRICATED[] player = new PlayerDEPRICATED[1000];
         EntityController entityController;
         public Game1()
         {
@@ -42,11 +42,11 @@ namespace LightWay
             // Create a new SpriteBatch, which can be used to draw textures.
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            player = new PlayerDEPRICATED(Content.Load<Texture2D>("graphics/Bombsquad Black"),graphics);
-            entityController.CreateEntity(new PositionC(new Vector2(100,100)), new TextureC((Content.Load<Texture2D>("graphics/Bombsquad Black"))));
-            entityController.CreateEntity(new PositionC(new Vector2(50, 50)), new ControllableC(), new TextureC((Content.Load<Texture2D>("graphics/Bombsquad Black"))),new VelocityC(),new GravityC(new Vector2(0, 1)));
-            player.scale = 0.5f;
 
+            for (int i = 0; i < 10000; i++)
+            {
+                entityController.CreateEntity(new PositionC(new Vector2(50, 50)), new ControllableC(), new TextureC((Content.Load<Texture2D>("graphics/Bombsquad Black"))), new VelocityC(), new GravityC(new Vector2(0, 1)), new ColliderC());
+            }
             // TODO: use this.Content to load your game content here
         }
 
@@ -70,8 +70,7 @@ namespace LightWay
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == Input.getGamePadKey() || Input.getKeyBoardKey(Keys.Escape))
                 Exit();
             entityController.GeneralUpdate(gameTime);
-            
-            player.Do();
+           
             //base.IsMouseVisible = true;
             base.Update(gameTime);
         }
@@ -83,9 +82,6 @@ namespace LightWay
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Gray);
-            spriteBatch.Begin();
-            spriteBatch.Draw(player.Texture,new Rectangle((int)player.position.X, (int)player.position.Y, (int)player.width, (int)player.height),Color.White);
-            spriteBatch.End();
             entityController.RenderingUpdate(gameTime);
             // TODO: Add your drawing code here
 

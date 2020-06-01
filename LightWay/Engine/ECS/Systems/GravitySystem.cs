@@ -1,9 +1,4 @@
 ﻿using LightWay.Engine.ECS.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LightWay
 {
@@ -17,7 +12,7 @@ namespace LightWay
         }
         public override void ProcessEntity()
         { 
-            ((VelocityC)workingEntity[typeof(VelocityC)]).velocity += ((GravityC)workingEntity[typeof(GravityC)]).gravity;
+            GetComponent<VelocityC>().velocity += GetComponent<GravityC>().gravity;
         }
     }
 }

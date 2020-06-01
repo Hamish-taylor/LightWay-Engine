@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Linq;
 
 namespace LightWay
 {
@@ -22,7 +23,7 @@ namespace LightWay
         public float drawingScale { get; set; }
         public Rectangle _collider;
         public Rectangle collider { get { reScale(); return _collider; } set { _collider = value; } }
-        private float _scale = 1;
+        private float _scale = 0.2f;
         public float scale { get { return _scale; } set { _scale = value; reScale(); } }
         public PlayerDEPRICATED(Texture2D texture, GraphicsDeviceManager graphics)
         {
@@ -35,10 +36,11 @@ namespace LightWay
 
 
         public void Do() {
-            if (Input.getKeyBoardKey(Keys.D)) velocity += new Vector2(1, 0);
-            if (Input.getKeyBoardKey(Keys.A)) velocity -= new Vector2(1, 0);
-            if (Input.getKeyBoardKey(Keys.S)) velocity += new Vector2(0, 1);
-            if (Input.getKeyBoardKey(Keys.Space) && velocity.Y == 0) velocity -= new Vector2(0, 20);
+            Keys[] keys = Input.getKeyBoardKeys();
+            if (keys.Contains(Keys.D)) velocity += new Vector2(1, 0);
+            if (keys.Contains(Keys.A)) velocity -= new Vector2(1, 0);
+            if (keys.Contains(Keys.S)) velocity += new Vector2(0, 1);
+            if (keys.Contains(Keys.Space) && velocity.Y == 0) velocity -= new Vector2(0, 20);
 
             _velocity += gravity;
             CheckBoundsCollision();
@@ -51,13 +53,13 @@ namespace LightWay
         public void reScale()
         {
             this.width = (Texture.Width * scale);
-            this.height = ((Texture.Height * (int)drawingScale) * scale);
+            this.height = (Texture.Height * scale);
             collider = new Rectangle((int)position.X, (int)position.Y, (int)width, (int)height);
         }
 
         private void CheckBoundsCollision()
         {
-            //left
+     /*       //left
             if (collider.X + collider.Width > graphics.GraphicsDevice.Viewport.Width && _velocity.X > 0)
             {
                 _velocity.X = 0;
@@ -77,7 +79,7 @@ namespace LightWay
             {
                 if (_position.Y > 1 || (_position.Y < -1))
                     _position.Y = 0;
-            }
+            }*/
 
             //bottom
             if (collider.Y + collider.Height > graphics.GraphicsDevice.Viewport.Height && _velocity.Y > 0)

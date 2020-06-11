@@ -42,14 +42,11 @@ namespace LightWay
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-
+            // Create a new SpriteBatch, which can be used to draw textures
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            entityController.CreateEntity(new PositionC(new Vector2(50, 50)), new ControllableC(), new TextureC((Content.Load<Texture2D>("graphics/Bombsquad Black"))), new VelocityC(), new GravityC(new Vector2(0, 1)), new ColliderC());
-            for (int i = 0; i < 20000; i++)
-            {
-                entityController.CreateEntity(new PositionC(new Vector2(50, 50)), new ControllableC(), new TextureC((Content.Load<Texture2D>("graphics/Bombsquad Black"))));
-            }
+            entityController.CreateEntity(new PositionC(new Vector2(50, 50)), new ControllableC(), new TextureC(GraphicsDevice,new Vector2(50,50),Color.Black), new VelocityC(), new GravityC(new Vector2(0, 1)), new ColliderC(50,50,50,50));
+            entityController.CreateEntity(new PositionC(new Vector2(0, 300)), new TextureC(GraphicsDevice, new Vector2(300, 100),Color.Green),new ColliderC(new Rectangle(0,300,300,100)));
+            entityController.CreateEntity(new PositionC(new Vector2(300, 200)), new TextureC(GraphicsDevice, new Vector2(100, 300), Color.Green), new ColliderC(new Rectangle(300, 200, 100, 300)));
             // TODO: use this.Content to load your game content here
         }
 

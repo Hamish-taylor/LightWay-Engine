@@ -28,9 +28,10 @@ namespace LightWay
         {
             Texture = (TextureC)workingEntity[typeof(TextureC)];
             Pos = (PositionC)workingEntity[typeof(PositionC)];
-            float width = Texture.texture.Width * (float)Texture.scale;
-            float height = Texture.texture.Height * (float)Texture.scale;
+            float width = Texture.texture.Width * (float)Texture.scale.X;
+            float height = Texture.texture.Height * (float)Texture.scale.Y;
             spriteBatch.Draw(Texture.texture, new Rectangle((int)Pos.position.X, (int)Pos.position.Y, (int)width, (int)height), Color.White);
+
         }
     }
 

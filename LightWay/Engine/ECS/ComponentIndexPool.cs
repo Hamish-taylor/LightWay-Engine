@@ -23,13 +23,10 @@ namespace LightWay
         }
 
         public IComponent Get(Type type,int id)
-        {   
-            
-                if(pool.ContainsKey(type) && pool[type].ContainsKey(id))
-                return pool[type][id];          
-                return null;
-
-            
+        {            
+            if(pool.ContainsKey(type) && pool[type].ContainsKey(id))
+            return pool[type][id];          
+            return null;
         }
         /// <summary>
         /// Inserts a component into the pool

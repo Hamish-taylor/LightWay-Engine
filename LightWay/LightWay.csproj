@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Engine\ECS\ComponentIndexPool.cs" />
     <Compile Include="Engine\ECS\Components\ColliderC.cs" />
+    <Compile Include="Engine\ECS\Components\ColorBlockC.cs" />
     <Compile Include="Engine\ECS\Components\ControllableC.cs" />
     <Compile Include="Engine\ECS\Components\GravityC.cs" />
     <Compile Include="Engine\ECS\Components\VelocityC.cs" />

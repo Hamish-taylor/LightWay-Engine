@@ -60,9 +60,10 @@ namespace LightWay
         /// </summary>
         private void InitSystems()
         {
+            generalSystems.Add(new CollisionSystem(CIP));
             generalSystems.Add(new GravitySystem());
             generalSystems.Add(new PlayerSystem());
-            generalSystems.Add(new CollisionSystem());
+           
             renderingSystems.Add(new RenderSystem(new SpriteBatch(graphicsDevice)));
         }
         /// <summary>

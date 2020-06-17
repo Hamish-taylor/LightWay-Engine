@@ -1,4 +1,6 @@
-﻿using LightWay;
+﻿using FarseerPhysics.Dynamics;
+using FarseerPhysics.Factories;
+using LightWay;
 using LightWay.Engine.ECS.Components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,14 +15,21 @@ namespace LightWay
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        PlayerDEPRICATED[] player = new PlayerDEPRICATED[1000];
         EntityController entityController;
 
+        World world = new World(new Vector2(0,-1));
+        Body body;
         private double keyUpdateTimer = 0;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            Window.AllowUserResizing = true;
+            body = BodyFactory.CreateRectangle(world,Grid.gridPixelSize,Grid.gridPixelSize,1);
+            body.Friction = 0.5f;
+            body.Restitution = 0.3f;
+            body.Position = new Vector2(0,0);
+           // Window.ClientSizeChanged += OnResize;
         }
 
         /// <summary>
@@ -44,9 +53,10 @@ namespace LightWay
         {
             // Create a new SpriteBatch, which can be used to draw textures
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            entityController.CreateEntity(new PositionC(new Vector2(50, 50)), new ControllableC(), new TextureC(GraphicsDevice,new Vector2(50,50),Color.Black), new VelocityC(), new GravityC(new Vector2(0, 1)), new ColliderC(50,50,50,50));
-            entityController.CreateEntity(new PositionC(new Vector2(0, 300)), new TextureC(GraphicsDevice, new Vector2(300, 100),Color.Green),new ColliderC(new Rectangle(0,300,300,100)));
-            entityController.CreateEntity(new PositionC(new Vector2(300, 200)), new TextureC(GraphicsDevice, new Vector2(100, 300), Color.Green), new ColliderC(new Rectangle(300, 200, 100, 300)));
+            entityController.CreateEntity(new PositionC(new Vector2(50, 50)), new ControllableC(), new TextureC(GraphicsDevice,new Vector2(50,50),Color.Black), new VelocityC(), new ColliderC(50,50,50,50));
+           // entityController.CreateEntity(new PositionC(new Vector2(0, 300)), new TextureC(GraphicsDevice, new Vector2(300, 100),Color.Green),new ColliderC(new Rectangle(0,300,300,100)));
+            //entityController.CreateEntity(new PositionC(new Vector2(300, 200)), new TextureC(GraphicsDevice, new Vector2(100, 300), Color.Green), new ColliderC(new Rectangle(300, 200, 100, 300)));
+            entityController.CreateEntity(new CameraC());
             // TODO: use this.Content to load your game content here
         }
 
@@ -86,10 +96,21 @@ namespace LightWay
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Gray);
+            GraphicsDevice.Clear(Color.CornflowerBlue);
             entityController.RenderingUpdate(gameTime);
             // TODO: Add your drawing code here
 
+
+
+            Texture2D texture = new Texture2D(GraphicsDevice, 1, 1);
+            Color[] c = new Color[1];
+            c[0] = Color.Black;
+            texture.SetData(c);
+            spriteBatch.Begin();
+            Console.WriteLine(new Vector2(body.Position.X, body.Position.Y).ToString());
+            spriteBatch.Draw(texture, new Rectangle((int)body.Position.X,(int)body.Position.Y, Grid.gridPixelSize, Grid.gridPixelSize), Color.White);
+
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }

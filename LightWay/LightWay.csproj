@@ -56,18 +56,22 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Engine\ECS\Components\CameraC.cs" />
+    <Compile Include="Engine\ECS\Systems\CameraSystem.cs" />
+    <Compile Include="ChunkC.cs" />
+    <Compile Include="ChunkSystem.cs" />
     <Compile Include="Engine\ECS\ComponentIndexPool.cs" />
     <Compile Include="Engine\ECS\Components\ColliderC.cs" />
-    <Compile Include="Engine\ECS\Components\ColorBlockC.cs" />
     <Compile Include="Engine\ECS\Components\ControllableC.cs" />
     <Compile Include="Engine\ECS\Components\GravityC.cs" />
     <Compile Include="Engine\ECS\Components\VelocityC.cs" />
     <Compile Include="Engine\ECS\EntityController.cs" />
-    <Compile Include="Engine\ECS\Systems\CollisionSystem.cs" />
+    <Compile Include="Engine\ECS\Systems\PhysicsSystem.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="Engine\Input.cs" />
+    <Compile Include="Engine\ECS\Tools\Input.cs" />
     <Compile Include="Engine\ECS\Systems\GravitySystem.cs" />
-    <Compile Include="Player.cs" />
+    <Compile Include="Engine\ECS\Tools\Grid.cs" />
+    <Compile Include="Engine\ECS\Tools\PerlinNoise.cs" />
     <Compile Include="Engine\ECS\Components\Abstract\IComponent.cs" />
     <Compile Include="Engine\ECS\Entitys\IEntity.cs" />
     <Compile Include="Engine\ECS\Systems\Abstract\ISystem.cs" />
@@ -102,6 +106,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\FarseerPhysics\sourceCode\sourceCode\SourceFiles\Farseer Physics MonoGame.csproj">
+      <Project>{0aad36e3-51a5-4a07-ab60-5c8a66bd38b7}</Project>
+      <Name>Farseer Physics MonoGame</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

@@ -17,5 +17,11 @@ namespace LightWay
             this.position = position;
             this.type = typeof(PositionC);
         }
+
+        public PositionC(float x, float y)
+        {
+            this.position = new Vector2(x,y);
+            this.type = typeof(PositionC);
+        }
     }
 }

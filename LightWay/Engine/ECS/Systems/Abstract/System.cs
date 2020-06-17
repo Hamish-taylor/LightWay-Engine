@@ -35,7 +35,6 @@ namespace LightWay
         public virtual void update(GameTime gameTime, ComponentIndexPool CIP)
         {
             IComponent first;
-            IComponent c = null;
             //Looping through a key set of position components
             foreach (var p in CIP.GetAll(components[0]))
             {
@@ -47,7 +46,7 @@ namespace LightWay
                 bool foundAll = true;
                 for (int i = 1; i < components.Count; i++)
                 {
-                    c = CIP.Get(components[i],id);
+                    IComponent c = CIP.Get(components[i], id);
                     if (c == null)
                     {
                         foundAll = false;
@@ -87,5 +86,8 @@ namespace LightWay
             return ((T)workingEntity[typeof(T)]);
         }
 
+        internal class Drawing
+        {
+        }
     }
 }

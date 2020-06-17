@@ -16,6 +16,8 @@ namespace LightWay
     {
         public int entityCount { get; private set; } = 0;
         private GraphicsDevice graphicsDevice { get; set; }
+
+        public ChunkC currentRenderedChunk = null;
         public EntityController(GraphicsDevice graphicsDevice)
         {
             this.graphicsDevice = graphicsDevice;
@@ -60,11 +62,12 @@ namespace LightWay
         /// </summary>
         private void InitSystems()
         {
-            generalSystems.Add(new CollisionSystem(CIP));
+            generalSystems.Add(new PhysicsSystem(CIP,this));
+            renderingSystems.Add(new ChunkSystem(graphicsDevice, this,CIP, 100));
             generalSystems.Add(new GravitySystem());
             generalSystems.Add(new PlayerSystem());
-           
-            renderingSystems.Add(new RenderSystem(new SpriteBatch(graphicsDevice)));
+            generalSystems.Add(new CameraFollowSystem(graphicsDevice));
+            renderingSystems.Add(new RenderSystem(new SpriteBatch(graphicsDevice), graphicsDevice));
         }
         /// <summary>
         /// Creates a ComponentIndexPool.
@@ -88,6 +91,11 @@ namespace LightWay
             }
             entitys.Add(entity);
             entityCount++;
+        }
+
+        public int GetFreeEntityId()
+        {
+            return ++entityCount;
         }
     }
 }

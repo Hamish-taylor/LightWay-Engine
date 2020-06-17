@@ -33,14 +33,13 @@ namespace LightWay
 
             if (keys.Contains(Keys.D)) Velocity.velocity.X += 1;
             else if (keys.Contains(Keys.A)) Velocity.velocity.X -= 1;
-            
-            Console.WriteLine(Collider.colDir);
-            if ((Velocity.velocity.X > 0 && Collider.colDir.Y != 0 || Velocity.velocity.X < 0 && Collider.colDir.W !=  0)) Velocity.velocity.X = 0;
+            else if (keys.Contains(Keys.W)) Velocity.velocity.Y -= 1;
+            else if (keys.Contains(Keys.S)) Velocity.velocity.Y += 1;
 
-            if (Velocity.velocity.Y > 0 && Collider.colDir.Z != 0 || Velocity.velocity.Y < 0 && Collider.colDir.X != 0) Velocity.velocity.Y = 0;
-            if (keys.Contains(Keys.Space) && Velocity.velocity.Y == 0) Velocity.velocity.Y -= 20;
+            Collider.setPos(Position.position.ToPoint());
+       
             Position.position += Velocity.velocity;
-
+            Console.WriteLine(Position.position.ToString());
             //DRAG
             //PROBABLY SHOULD SPLIT THIS INTO ITS OWN SYSTEM
             Velocity.velocity -= Velocity.velocity / 8;

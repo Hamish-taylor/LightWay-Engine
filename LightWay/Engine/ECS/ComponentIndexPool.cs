@@ -10,6 +10,7 @@ namespace LightWay
     {
         private Dictionary<Type, Dictionary<int, IComponent>> pool { get; set; } = new Dictionary<Type, Dictionary<int, IComponent>>();
         private Dictionary<int, IComponent> d;
+
         /// <summary>
         /// Returns all components in the pool of a given type.
         /// </summary>

@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace LightWay.Engine.ECS.Components
 {
-    class GravityC : IComponent
+    class GravityCDEPRECATED : IComponent
     {
-        public Type type { get; } = typeof(GravityC);
+        public Type type { get; } = typeof(GravityCDEPRECATED);
 
         public Vector2 gravity = new Vector2(0, 0);
 
-        public GravityC(Vector2 gravity)
+        public GravityCDEPRECATED(Vector2 gravity)
         {
             this.gravity = gravity;
         }

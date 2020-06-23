@@ -11,6 +11,7 @@ namespace LightWay
     {
         public static int gridPixelSize = 50;
 
+        public static int ratio = 10;
         public static Vector2 WorldToGridPos(Vector2 worldPos)
         {
             return new Vector2(worldPos.X / gridPixelSize, worldPos.Y / gridPixelSize);

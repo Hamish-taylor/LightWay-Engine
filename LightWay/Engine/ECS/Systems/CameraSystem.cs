@@ -32,7 +32,7 @@ namespace LightWay
         {
             Vector3 camTranslation = ((CameraC)(CIP.GetAll(typeof(CameraC)).First().Value)).matrix.Translation;
             Vector2 playerPos = ((PositionC)workingEntity[typeof(PositionC)]).position;
-            Vector3 translation = new Vector3(MathHelper.Lerp(camTranslation.X, -playerPos.X + (graphicsDevice.Viewport.Width / 2), cameraFollowDampening), MathHelper.Lerp(camTranslation.Y, -playerPos.Y + (graphicsDevice.Viewport.Height / 2), 0.5f),0);         
+            Vector3 translation = new Vector3(MathHelper.Lerp(camTranslation.X, -playerPos.X + (graphicsDevice.Viewport.Width / 2), cameraFollowDampening), MathHelper.Lerp(camTranslation.Y, -playerPos.Y + (graphicsDevice.Viewport.Height / 2), 1f),0);         
             
            ((CameraC)(CIP.GetAll(typeof(CameraC)).First().Value)).matrix = Matrix.CreateScale(new Vector3(1, 1, 0)) * Matrix.CreateTranslation(translation);
         }

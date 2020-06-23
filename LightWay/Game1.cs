@@ -1,4 +1,5 @@
-﻿using FarseerPhysics.Dynamics;
+﻿using FarseerPhysics;
+using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using LightWay;
 using LightWay.Engine.ECS.Components;
@@ -17,18 +18,12 @@ namespace LightWay
         SpriteBatch spriteBatch;
         EntityController entityController;
 
-        World world = new World(new Vector2(0,-1));
-        Body body;
         private double keyUpdateTimer = 0;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             Window.AllowUserResizing = true;
-            body = BodyFactory.CreateRectangle(world,Grid.gridPixelSize,Grid.gridPixelSize,1);
-            body.Friction = 0.5f;
-            body.Restitution = 0.3f;
-            body.Position = new Vector2(0,0);
            // Window.ClientSizeChanged += OnResize;
         }
 
@@ -53,8 +48,13 @@ namespace LightWay
         {
             // Create a new SpriteBatch, which can be used to draw textures
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            entityController.CreateEntity(new PositionC(new Vector2(50, 50)), new ControllableC(), new TextureC(GraphicsDevice,new Vector2(50,50),Color.Black), new VelocityC(), new ColliderC(50,50,50,50));
-           // entityController.CreateEntity(new PositionC(new Vector2(0, 300)), new TextureC(GraphicsDevice, new Vector2(300, 100),Color.Green),new ColliderC(new Rectangle(0,300,300,100)));
+            Body b = BodyFactory.CreateRectangle(entityController.physicsWorld, ConvertUnits.ToSimUnits((Grid.gridPixelSize)), ConvertUnits.ToSimUnits((Grid.gridPixelSize)), 20f, new Vector2(0, 0), 0, BodyType.Dynamic);
+            b.Friction = 0.1f;
+            b.Restitution = 0f;
+     
+            entityController.CreateEntity(new PositionC(0, 200,b), new ControllableC(), new TextureC(GraphicsDevice,new Vector2(Grid.gridPixelSize,Grid.gridPixelSize),Color.Black), new VelocityC());
+            //entityController.CreateEntity(new PositionC(50, 50, BodyFactory.CreateBody(entityController.physicsWorld, new Vector2(0, 0), 0, BodyType.Static)), new TextureC(GraphicsDevice, new Vector2(50, 50), Color.Black));
+            // entityController.CreateEntity(new PositionC(new Vector2(0, 300)), new TextureC(GraphicsDevice, new Vector2(300, 100),Color.Green),new ColliderC(new Rectangle(0,300,300,100)));
             //entityController.CreateEntity(new PositionC(new Vector2(300, 200)), new TextureC(GraphicsDevice, new Vector2(100, 300), Color.Green), new ColliderC(new Rectangle(300, 200, 100, 300)));
             entityController.CreateEntity(new CameraC());
             // TODO: use this.Content to load your game content here
@@ -100,15 +100,11 @@ namespace LightWay
             entityController.RenderingUpdate(gameTime);
             // TODO: Add your drawing code here
 
-
-
             Texture2D texture = new Texture2D(GraphicsDevice, 1, 1);
             Color[] c = new Color[1];
             c[0] = Color.Black;
             texture.SetData(c);
             spriteBatch.Begin();
-            Console.WriteLine(new Vector2(body.Position.X, body.Position.Y).ToString());
-            spriteBatch.Draw(texture, new Rectangle((int)body.Position.X,(int)body.Position.Y, Grid.gridPixelSize, Grid.gridPixelSize), Color.White);
 
             spriteBatch.End();
             base.Draw(gameTime);

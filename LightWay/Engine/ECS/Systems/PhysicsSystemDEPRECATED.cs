@@ -13,8 +13,15 @@ namespace LightWay.Engine.ECS.Systems
     /// <summary>
     /// controlls the phsi
     /// </summary>
-    class PhysicsSystem : System
+    class PhysicsSystemDEPRECATED : System
     {
+
+        World physicsWorld;
+
+        public PhysicsSystemDEPRECATED(Vector2 gravity)
+        {
+            physicsWorld = new World(gravity);
+        }
         public override void ProcessEntity()
         {
             throw new NotImplementedException();
@@ -23,7 +30,13 @@ namespace LightWay.Engine.ECS.Systems
 
         public override void update(GameTime gameTime, ComponentIndexPool CIP)
         {
-            base.update(gameTime, CIP);
+            //base.update(gameTime, CIP);
+            physicsWorld.Step(0.1f);
+        }
+
+        public void addBody(Body b)
+        {
+            //physicsWorld.ad
         }
     }
 

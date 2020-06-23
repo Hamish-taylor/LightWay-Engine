@@ -1,4 +1,8 @@
-﻿using LightWay.Engine.ECS.Systems;
+﻿using FarseerPhysics.Collision;
+using FarseerPhysics.Dynamics;
+using FarseerPhysics.Factories;
+using LightWay.Engine.ECS.Components;
+using LightWay.Engine.ECS.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -14,12 +18,16 @@ namespace LightWay
     /// </summary>
     class EntityController
     {
+
         public int entityCount { get; private set; } = 0;
         private GraphicsDevice graphicsDevice { get; set; }
 
-        public ChunkC currentRenderedChunk = null;
+        public ChunkC currentRenderedChunks = null;
+
+        public World physicsWorld = new World(new Vector2(0,5f));
         public EntityController(GraphicsDevice graphicsDevice)
         {
+            // physicsWorld.
             this.graphicsDevice = graphicsDevice;
             InitCIP();
             InitSystems();
@@ -39,6 +47,7 @@ namespace LightWay
         /// <param name="gameTime">The games <c>GameTime</c></param>
         public void GeneralUpdate(GameTime gameTime)
         {
+            physicsWorld.Step(0.0166f);
             foreach (var s in generalSystems)
             {
                 s.update(gameTime,CIP);
@@ -62,9 +71,8 @@ namespace LightWay
         /// </summary>
         private void InitSystems()
         {
-            generalSystems.Add(new PhysicsSystem(CIP,this));
+            //generalSystems.Add(new PhysicsSystem(CIP,this));
             renderingSystems.Add(new ChunkSystem(graphicsDevice, this,CIP, 100));
-            generalSystems.Add(new GravitySystem());
             generalSystems.Add(new PlayerSystem());
             generalSystems.Add(new CameraFollowSystem(graphicsDevice));
             renderingSystems.Add(new RenderSystem(new SpriteBatch(graphicsDevice), graphicsDevice));
@@ -84,10 +92,11 @@ namespace LightWay
         public void CreateEntity(params IComponent[] components)
         {
             Entity entity = new Entity(entityCount);
-            foreach (IComponent item in components)
+            foreach (IComponent component in components)
             {
-                CIP.InsertComponent(item,entityCount);
-                entity.components.Add(item);
+                CIP.InsertComponent(component, entityCount);
+
+                entity.components.Add(component);
             }
             entitys.Add(entity);
             entityCount++;

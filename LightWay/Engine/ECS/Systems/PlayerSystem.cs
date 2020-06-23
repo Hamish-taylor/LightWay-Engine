@@ -12,37 +12,30 @@ namespace LightWay
     class PlayerSystem : System
     {
         private Keys[] keys;
-        private VelocityC Velocity;
         private PositionC Position;
-        private ColliderC Collider;
         public PlayerSystem()
         {
             components.Add(typeof(PositionC));
             components.Add(typeof(ControllableC));
-            components.Add(typeof(VelocityC));
-            components.Add(typeof(ColliderC));
             keys = Input.keys;
             Init();
         }    
         public override void ProcessEntity()
         {
             keys = Input.keys;
-            Velocity = (VelocityC)workingEntity[typeof(VelocityC)];
             Position = (PositionC)workingEntity[typeof(PositionC)];
-            Collider = (ColliderC)workingEntity[typeof(ColliderC)];
+            Vector2 velocity = new Vector2();
+            if (keys.Contains(Keys.D)) velocity.X += 1;
+            if (keys.Contains(Keys.A)) velocity.X -= 1;
+            if (keys.Contains(Keys.W) && Position.body.LinearVelocity.Y == 0) velocity.Y -= 20;
+            if (keys.Contains(Keys.S)) velocity.Y += 1;
 
-            if (keys.Contains(Keys.D)) Velocity.velocity.X += 1;
-            else if (keys.Contains(Keys.A)) Velocity.velocity.X -= 1;
-            else if (keys.Contains(Keys.W)) Velocity.velocity.Y -= 1;
-            else if (keys.Contains(Keys.S)) Velocity.velocity.Y += 1;
-
-            Collider.setPos(Position.position.ToPoint());
        
-            Position.position += Velocity.velocity;
-            Console.WriteLine(Position.position.ToString());
+            Position.addForce(velocity);
+            //Console.WriteLine(Position.position.ToString());
             //DRAG
             //PROBABLY SHOULD SPLIT THIS INTO ITS OWN SYSTEM
-            Velocity.velocity -= Velocity.velocity / 8;
+         
         }
     }
 }

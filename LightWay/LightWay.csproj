@@ -57,16 +57,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Engine\ECS\Components\CameraC.cs" />
+    <Compile Include="Engine\ECS\Components\PhysicsBodyC.cs" />
     <Compile Include="Engine\ECS\Systems\CameraSystem.cs" />
     <Compile Include="ChunkC.cs" />
     <Compile Include="ChunkSystem.cs" />
     <Compile Include="Engine\ECS\ComponentIndexPool.cs" />
-    <Compile Include="Engine\ECS\Components\ColliderC.cs" />
+    <Compile Include="Engine\ECS\Components\ColliderCDEPRICATED.cs" />
     <Compile Include="Engine\ECS\Components\ControllableC.cs" />
-    <Compile Include="Engine\ECS\Components\GravityC.cs" />
+    <Compile Include="Engine\ECS\Components\GravityCDEPRICATED.cs" />
     <Compile Include="Engine\ECS\Components\VelocityC.cs" />
     <Compile Include="Engine\ECS\EntityController.cs" />
-    <Compile Include="Engine\ECS\Systems\PhysicsSystem.cs" />
+    <Compile Include="Engine\ECS\Systems\PhysicsSystemDEPRECATED.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Engine\ECS\Tools\Input.cs" />
     <Compile Include="Engine\ECS\Systems\GravitySystem.cs" />

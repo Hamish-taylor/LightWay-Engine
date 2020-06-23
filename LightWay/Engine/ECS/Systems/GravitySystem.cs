@@ -2,17 +2,17 @@
 
 namespace LightWay
 {
-    class GravitySystem : System
+    class GravitySystemDEPRECATED : System
     {
-        public GravitySystem()
+        public GravitySystemDEPRECATED()
         {
             components.Add(typeof(VelocityC));
-            components.Add(typeof(GravityC));
+
             Init();
         }
         public override void ProcessEntity()
         {
-            ((VelocityC)workingEntity[typeof(VelocityC)]).velocity += ((GravityC)workingEntity[typeof(GravityC)]).gravity;
+            ((VelocityC)workingEntity[typeof(VelocityC)]).velocity += ((GravityCDEPRECATED)workingEntity[typeof(GravityCDEPRECATED)]).gravity;
         }
     }
 }

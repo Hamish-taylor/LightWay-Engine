@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace LightWay.Engine.ECS.Components
 {
-    class ColliderC : IComponent
+    class ColliderCDEPRICATED : IComponent
     {
-        public Type type { get; } = typeof(ColliderC);
+        public Type type { get; } = typeof(ColliderCDEPRICATED);
         private Rectangle collider_ = new Rectangle();
         public Rectangle collider { get { return collider_; } private set { collider_ = value; } }
         public Point[] verticies { get; private set; } = new Point[4];
-        public ColliderC(Rectangle collider)
+        public ColliderCDEPRICATED(Rectangle collider)
         {
             this.collider = collider;
         }
-        public ColliderC(int x,int y,int width, int height)
+        public ColliderCDEPRICATED(int x,int y,int width, int height)
         {
             this.collider = new Rectangle(x,y,width,height);
             GenerateVerticies();

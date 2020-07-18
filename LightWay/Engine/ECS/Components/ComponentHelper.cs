@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace LightWay.Engine.ECS.Components
 {
-    public class ControllableC : IComponent
+    public class ComponentHelper
     {
-        public Type type { get; } = typeof(ControllableC);
+        public static long bitShiftID(int i)
+        {
+            return (long)Math.Pow(2, i);
+        }
+
+
     }
 }

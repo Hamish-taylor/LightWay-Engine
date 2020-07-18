@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -29,6 +29,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -50,17 +51,46 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Icon.ico</ApplicationIcon>
+    <ApplicationIcon>World Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;WINDOWS</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Engine\ECS\Components\BackGroundC.cs" />
     <Compile Include="Engine\ECS\Components\CameraC.cs" />
+    <Compile Include="Engine\ECS\Components\ComponentHelper.cs" />
+    <Compile Include="Engine\ECS\Components\PanelC.cs" />
     <Compile Include="Engine\ECS\Components\PhysicsBodyC.cs" />
+    <Compile Include="Engine\ECS\Components\ForgroundC.cs" />
+    <Compile Include="Engine\ECS\Components\TextC.cs" />
+    <Compile Include="Engine\ECS\Components\UIC.cs" />
+    <Compile Include="Engine\ECS\Systems\BackGroundSystem.cs" />
     <Compile Include="Engine\ECS\Systems\CameraSystem.cs" />
-    <Compile Include="ChunkC.cs" />
-    <Compile Include="ChunkSystem.cs" />
+    <Compile Include="Engine\ECS\Components\ChunkC.cs" />
+    <Compile Include="Engine\ECS\Systems\ChunkSystem.cs" />
     <Compile Include="Engine\ECS\ComponentIndexPool.cs" />
     <Compile Include="Engine\ECS\Components\ColliderCDEPRICATED.cs" />
     <Compile Include="Engine\ECS\Components\ControllableC.cs" />
@@ -68,6 +98,11 @@
     <Compile Include="Engine\ECS\Components\VelocityC.cs" />
     <Compile Include="Engine\ECS\EntityController.cs" />
     <Compile Include="Engine\ECS\Systems\PhysicsSystemDEPRECATED.cs" />
+    <Compile Include="Engine\ECS\Systems\UIRenderSystem.cs" />
+    <Compile Include="Engine\ECS\Tools\Font.cs" />
+    <Compile Include="Engine\ECS\Tools\TextHelper.cs" />
+    <Compile Include="Engine\ECS\Tools\UIBuilder.cs" />
+    <Compile Include="Engine\ECS\Tools\EntityGroup.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Engine\ECS\Tools\Input.cs" />
     <Compile Include="Engine\ECS\Systems\GravitySystem.cs" />
@@ -96,9 +131,11 @@
   <ItemGroup>
     <Content Include="Engine\ECS\Systems\Abstract\SystemsReadMe.txt" />
     <Content Include="Icon.ico" />
+    <Content Include="World Icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
+    <None Include="app.config" />
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>

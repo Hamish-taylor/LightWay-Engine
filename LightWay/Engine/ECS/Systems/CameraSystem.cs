@@ -1,12 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using LightWay.Engine.ECS.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LightWay
+namespace LightWay.Engine.ECS.Systems
 {
     /// <summary>
     /// Makes makes a camera component follow the first controllable component in the CIP

@@ -1,6 +1,6 @@
 ﻿using LightWay.Engine.ECS.Components;
 
-namespace LightWay
+namespace LightWay.Engine.ECS.Systems
 {
     class GravitySystemDEPRECATED : System
     {

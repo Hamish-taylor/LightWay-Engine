@@ -1,4 +1,5 @@
 ﻿using LightWay.Engine.ECS.Components;
+using LightWay.Engine.ECS.Tools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LightWay
+namespace LightWay.Engine.ECS.Systems
 {
     class PlayerSystem : System
     {
@@ -25,10 +26,10 @@ namespace LightWay
             keys = Input.keys;
             Position = (PositionC)workingEntity[typeof(PositionC)];
             Vector2 velocity = new Vector2();
-            if (keys.Contains(Keys.D)) velocity.X += 1;
-            if (keys.Contains(Keys.A)) velocity.X -= 1;
-            if (keys.Contains(Keys.W) && Position.body.LinearVelocity.Y == 0) velocity.Y -= 20;
-            if (keys.Contains(Keys.S)) velocity.Y += 1;
+            if (keys.Contains(Keys.D)) velocity.X += 1f;
+            if (keys.Contains(Keys.A)) velocity.X -= 1f;
+            if (keys.Contains(Keys.W) && Position.body.LinearVelocity.Y == 0) velocity.Y -= 20f;
+            if (keys.Contains(Keys.S)) velocity.Y += 1f;
 
        
             Position.addForce(velocity);

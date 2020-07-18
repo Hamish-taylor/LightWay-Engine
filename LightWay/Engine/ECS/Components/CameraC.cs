@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LightWay
+namespace LightWay.Engine.ECS.Components
 {
-    class CameraC : IComponent
+    public class CameraC : IComponent
     {
         public Type type{ get; private set; } = typeof(CameraC);
 

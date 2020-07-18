@@ -11,7 +11,7 @@ namespace LightWay
     /// <summary>
     /// The base class all Systems must extend
     /// </summary>
-    abstract class System : ISystem
+    public abstract class System : ISystem
     {
         /// <summary>
         /// A list of the components the system operates on

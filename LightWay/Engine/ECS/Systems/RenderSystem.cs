@@ -1,23 +1,26 @@
-﻿using Microsoft.Xna.Framework;
+﻿using LightWay.Engine.ECS.Components;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LightWay
+namespace LightWay.Engine.ECS.Systems
 {
     class RenderSystem : System
     {
         public SpriteBatch spriteBatch { get; private set; }
 
-        private TextureC Texture;
-        private PositionC Pos;
+        private TextureC TextureC;
+        private Texture2D Texture;
+        private Vector2 Pos;
         GraphicsDevice graphicsDevice;
         public RenderSystem(SpriteBatch spriteBatch,GraphicsDevice graphicsDevice)
         {
             this.graphicsDevice = graphicsDevice;
             components.Add(typeof(PositionC));
             components.Add(typeof(TextureC));
+            components.Add(typeof(ForgroundC));
             this.spriteBatch = spriteBatch;
             Init();
         }
@@ -30,11 +33,13 @@ namespace LightWay
         }
         public override void ProcessEntity()
         {
-            Texture = (TextureC)workingEntity[typeof(TextureC)];
+            TextureC = (TextureC)workingEntity[typeof(TextureC)];
+            Texture = TextureC;
             Pos = (PositionC)workingEntity[typeof(PositionC)];
-            float width = Texture.texture.Width * (float)Texture.scale.X;
-            float height = Texture.texture.Height * (float)Texture.scale.Y;
-            spriteBatch.Draw(Texture.texture, new Rectangle((int)Pos.position.X, (int)Pos.position.Y, (int)width, (int)height), Color.White);
+
+            float width = Texture.Width * (float)TextureC.scale.X;
+            float height = Texture.Height * (float)TextureC.scale.Y;
+            spriteBatch.Draw(Texture, new Rectangle((int)Pos.X, (int)Pos.Y, (int)width, (int)height), Color.White);
         }
     }
 

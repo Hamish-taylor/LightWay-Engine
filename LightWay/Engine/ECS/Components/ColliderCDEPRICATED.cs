@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LightWay.Engine.ECS.Components
 {
-    class ColliderCDEPRICATED : IComponent
+    public class ColliderCDEPRICATED : IComponent
     {
         public Type type { get; } = typeof(ColliderCDEPRICATED);
         private Rectangle collider_ = new Rectangle();

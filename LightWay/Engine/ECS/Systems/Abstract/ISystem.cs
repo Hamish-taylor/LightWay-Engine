@@ -10,7 +10,7 @@ namespace LightWay
     /// <summary>
     /// The base class all abstract System classes must inherit from
     /// </summary>
-    interface ISystem
+    public interface ISystem
     {
         void update(GameTime gameTime, ComponentIndexPool CIP);
     }

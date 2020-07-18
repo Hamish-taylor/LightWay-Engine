@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LightWay
+namespace LightWay.Engine.ECS.Tools
 {
-    class Grid
+    public class Grid
     {
         public static int gridPixelSize = 50;
 

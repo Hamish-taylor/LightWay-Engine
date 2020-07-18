@@ -2,15 +2,17 @@
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LightWay
+namespace LightWay.Engine.ECS.Components
 {
-    class PositionC : IComponent
+    public class PositionC : IComponent
     {
+      
         //If there is no body then this stores the position, Otherwise this just stores the initial position
         public Vector2 _position;
 
@@ -22,6 +24,11 @@ namespace LightWay
         private getPos gPos;
 
         public Body body { get; }
+
+
+        public static implicit operator Vector2(PositionC p) => p._position;
+
+        public static explicit operator PositionC(Vector2 p) => new PositionC(p);
         public PositionC(Vector2 position)
         {
             gPos = new getPos(getPosFromPos);
@@ -35,7 +42,6 @@ namespace LightWay
             this._position = new Vector2(x,y);
             this.type = typeof(PositionC);
         }
-
         public PositionC(float x, float y, Body b)
         {
             body = b;

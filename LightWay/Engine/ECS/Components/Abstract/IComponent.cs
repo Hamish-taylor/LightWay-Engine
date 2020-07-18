@@ -15,6 +15,7 @@ namespace LightWay
         /// <summary>
         /// The type of the current component, This is used to easier sorting
         /// </summary>
-           Type type { get; }
+        Type type { get; }
+
     }
 }

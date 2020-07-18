@@ -7,21 +7,19 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using LightWay.Engine.ECS.Tools;
 
-namespace LightWay
+
+namespace LightWay.Engine.ECS.Systems
 {
-    /// <summary>
-    /// Defines a group of chunks
-    /// </summary>
-    class ChunkSystem : System
+    public class ChunkSystem : System
     {        
         private int diameter;
         private int numBlocks;
         private int numComponentsPerBlock = 1;
         SpriteBatch chunkSpriteBatch;
         private GraphicsDevice graphicsDevice;
+        public static Texture2D texture;
         EntityController EntityController;
 
         Dictionary<Vector2,ChunkC> chunks = new Dictionary<Vector2,ChunkC>();
@@ -55,7 +53,7 @@ namespace LightWay
             }
 
             CameraC camera = ((CameraC)CIP.GetAll(typeof(CameraC)).First().Value);
-            chunkSpriteBatch.Begin(SpriteSortMode.Texture, null, null, null, null, null, camera.matrix);
+            chunkSpriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.matrix);
             Vector2 position = ((PositionC)workingEntity[typeof(PositionC)]).position;
             
             //The current chunk pos
@@ -68,8 +66,8 @@ namespace LightWay
             Rectangle r = new Rectangle(x, y, diameter * Grid.gridPixelSize, diameter * Grid.gridPixelSize);
             if (x >= 0 && y >=0 && r.Contains(position))  {
                 ChunkC c = null;
-                Console.WriteLine(cX + " " + cY);
-                Console.WriteLine(chunks.TryGetValue(new Vector2(cX,cY), out c));
+                //Console.WriteLine(cX + " " + cY);
+                chunks.TryGetValue(new Vector2(cX,cY), out c);
                 if (c == null) c = GenerateChunk(x, y);
                 workingEntity[typeof(ChunkC)] = c;
                 ProcessEntity();
@@ -202,14 +200,13 @@ namespace LightWay
 
         public ChunkC GenerateChunk(int x,int y)
         {
-            Console.WriteLine("GEN");
             ChunkC chunk = new ChunkC(x,y,diameter,numComponentsPerBlock);
             IComponent[] comp = new IComponent[numBlocks*numComponentsPerBlock];
             var rand = new Random();
             float increament = 0.01f;
             float decemalW = (x/(diameter*Grid.gridPixelSize)) * ((diameter-1) +(diameter*increament));
             float decemalH = (y / (diameter * Grid.gridPixelSize)) * ((diameter - 1) + (diameter * increament));
-            Console.WriteLine(decemalW);
+            //Console.WriteLine(decemalW);
             
             for (int h = 0; h < diameter; h++)
             {
@@ -224,12 +221,14 @@ namespace LightWay
                         Body b = BodyFactory.CreateRectangle(EntityController.physicsWorld, ConvertUnits.ToSimUnits(Grid.gridPixelSize), ConvertUnits.ToSimUnits(Grid.gridPixelSize), 1,ConvertUnits.ToSimUnits(new Vector2(w * Grid.gridPixelSize + chunk.bounds.X, h * Grid.gridPixelSize + chunk.bounds.Y)), 0, BodyType.Static);
                         b.Friction = 0.5f;
                         b.Restitution = 0;
-                        comp[((w + (h * diameter)) * numComponentsPerBlock)] = new TextureC(graphicsDevice, Grid.gridPixelSize, Grid.gridPixelSize, Color.FromNonPremultiplied((int)n, (int)n, (int)n, 255));
+                        comp[((w + (h * diameter)) * numComponentsPerBlock)] = new TextureC(ChunkSystem.texture, Grid.gridPixelSize);
+                        //comp[((w + (h * diameter)) * numComponentsPerBlock)] = new TextureC(graphicsDevice, Grid.gridPixelSize, Grid.gridPixelSize, Color.FromNonPremultiplied((int)n, (int)n, (int)n, 255));
                         //comp[((w + (h * diameter)) * numComponentsPerBlock) + 1] = new PositionC(w * Grid.gridPixelSize + chunk.bounds.X, h * Grid.gridPixelSize + chunk.bounds.Y, b);
                     }
                     else
                     {
-                        comp[((w + (h * diameter)) * numComponentsPerBlock)] = new TextureC(graphicsDevice, Grid.gridPixelSize, Grid.gridPixelSize, Color.FromNonPremultiplied((int)n, (int)n, (int)n, 0));
+                        //comp[((w + (h * diameter)) * numComponentsPerBlock)] = new TextureC(ChunkSystem.texture, Grid.gridPixelSize);
+                        //comp[((w + (h * diameter)) * numComponentsPerBlock)] = new TextureC(graphicsDevice, Grid.gridPixelSize, Grid.gridPixelSize, Color.FromNonPremultiplied((int)n, (int)n, (int)n, 0));
                         //comp[((w + (h * diameter)) * numComponentsPerBlock) + 1] = new PositionC(w * Grid.gridPixelSize + chunk.bounds.X, h * Grid.gridPixelSize + chunk.bounds.Y);
                     }                   
                 }
@@ -244,17 +243,17 @@ namespace LightWay
 
         public override void ProcessEntity()
         {
-            
+            //Console.WriteLine(ChunkSystem.texture == null); 
             ChunkC chunk = ((ChunkC)workingEntity[typeof(ChunkC)]);
             IComponent[] components = chunk.Blocks;
             //TextureC texture = ((TextureC)components[10 + (10 * diameter)]);
-            Console.WriteLine("Rendering chunk: " + chunk.bounds);
+            //Console.WriteLine("Rendering chunk: " + chunk.bounds);
             for (int h = 0; h < diameter; h++)
             {
                 for (int w = 0; w < diameter; w++)
                 {
                     TextureC texture = ((TextureC)components[w + (h*diameter)]);
-                    chunkSpriteBatch.Draw(texture.texture, new Rectangle(w * Grid.gridPixelSize + chunk.bounds.X, h * Grid.gridPixelSize + chunk.bounds.Y, (int)texture.scale.X, (int)texture.scale.Y), Color.White);
+                   if(texture != null) chunkSpriteBatch.Draw(ChunkSystem.texture, new Rectangle(w * Grid.gridPixelSize + chunk.bounds.X, h * Grid.gridPixelSize + chunk.bounds.Y, (int)texture.scale.X, (int)texture.scale.Y), Color.White);
                 }
             }
         }

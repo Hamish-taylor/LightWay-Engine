@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LightWay.Engine.ECS.Components
 {
-    class PhysicsBodyC : IComponent
+    public class PhysicsBodyC : IComponent
     {
         public Type type { get; } = typeof(PhysicsBodyC);
         public BodyType bodytype { get; private set; }

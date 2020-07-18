@@ -1,12 +1,12 @@
 ﻿using Microsoft.Xna.Framework.Input;
 using System.Linq;
 
-namespace LightWay
+namespace LightWay.Engine.ECS.Tools
 {
     /// <summary>
     /// A helper class for getting input from a keyboard or controller
     /// </summary>
-    class Input
+    public class Input
     {
         /// <summary>
         /// The prefered variable for accessing pressed keys.

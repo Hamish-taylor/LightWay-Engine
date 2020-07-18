@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LightWay.Engine.ECS.Components
 {
-    class GravityCDEPRECATED : IComponent
+    public class GravityCDEPRECATED : IComponent
     {
         public Type type { get; } = typeof(GravityCDEPRECATED);
 

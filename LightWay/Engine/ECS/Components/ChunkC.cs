@@ -1,13 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
+using LightWay.Engine.ECS.Tools;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LightWay
+namespace LightWay.Engine.ECS.Components
 {
-    class ChunkC : IComponent
+    public class ChunkC : IComponent
     {
         public Type type { get; set; } = typeof(ChunkC);
 

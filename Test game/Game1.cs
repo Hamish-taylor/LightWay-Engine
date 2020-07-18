@@ -1,18 +1,19 @@
-﻿using FarseerPhysics;
-using FarseerPhysics.Dynamics;
-using FarseerPhysics.Factories;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using LightWay.Engine.ECS.Tools;
+using LightWay;
 using LightWay.Engine.ECS.Systems;
+using FarseerPhysics;
+using FarseerPhysics.Factories;
 using LightWay.Engine.ECS.Components;
+using LightWay.Engine.ECS.Tools;
+using FarseerPhysics.Dynamics;
 
-namespace LightWay
+namespace Test_game
 {
+    /// <summary>
+    /// This is the main type for your game.
+    /// </summary>
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
@@ -132,6 +133,7 @@ namespace LightWay
             base.Draw(gameTime);
         }
     }
-
 }
+
+
 

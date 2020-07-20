@@ -22,7 +22,6 @@ namespace LightWay.Engine.ECS.Components
         public static explicit operator TextureC(Texture2D t) => new TextureC(t,1);
         public Vector2 scale { get; set; } = new Vector2(0.2f, 0.2f);
 
-        public long id { get; private set; } = 1;
 
         /// <summary>
         /// Create component from a texture
@@ -33,7 +32,6 @@ namespace LightWay.Engine.ECS.Components
         {
             this.scale = scale;
             this.Texture = texture;
-            this.id = (long)Math.Pow(2, id);
 ;        }
         /// <summary>
         /// Create component from a texture with a square scale

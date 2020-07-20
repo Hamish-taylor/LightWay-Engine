@@ -13,7 +13,7 @@
     <AssemblyName>LightWay</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>Windows</MonoGamePlatform>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -130,6 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Engine\ECS\Systems\Abstract\SystemsReadMe.txt" />
+    <Content Include="Fonts\Default.txt" />
     <Content Include="Icon.ico" />
     <Content Include="World Icon.ico" />
   </ItemGroup>

@@ -21,7 +21,6 @@ namespace LightWay.Engine.ECS.Systems
         }
         public override void update(GameTime gameTime, ComponentIndexPool CIP)
         {
-            Console.WriteLine("RENDER");
             spriteBatch.Begin();
             base.update(gameTime, CIP);
             spriteBatch.End();

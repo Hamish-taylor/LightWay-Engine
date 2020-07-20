@@ -18,7 +18,6 @@ namespace LightWay
     /// </summary>
     public class EntityController
     {
-
         public int entityCount { get; private set; } = 0;
         private GraphicsDevice graphicsDevice { get; set; }
 
@@ -39,7 +38,6 @@ namespace LightWay
         public List<ISystem> generalSystems { get; set; } = new List<ISystem>();
         public List<ISystem> renderingSystems { get; set; } = new List<ISystem>();
 
-         
         public List<IEntity> entitys { get; set; } = new List<IEntity>();
          
         public ComponentIndexPool CIP { get; private set; }
@@ -50,13 +48,11 @@ namespace LightWay
         /// <param name="gameTime">The games <c>GameTime</c></param>
         public void GeneralUpdate(GameTime gameTime)
         {
-            Console.WriteLine(entityCount);
             physicsWorld.Step(0.0166f);
             foreach (var s in generalSystems)
             {
                 s.update(gameTime,CIP);
-            }
-            
+            } 
         }
         /// <summary>
         /// Updates rendering based systems
@@ -83,8 +79,6 @@ namespace LightWay
             }
             stagedEntitys.Clear();
         }
-
-
 
         /// <summary>
         /// Where systems are added to the EntiyController.
@@ -142,7 +136,6 @@ namespace LightWay
             stagedEntitys.Add(entity);
             return entity.id;           
         }
-
         public int GetFreeEntityId()
         {
             return ++entityCount;

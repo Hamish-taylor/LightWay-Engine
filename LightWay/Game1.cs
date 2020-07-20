@@ -62,9 +62,6 @@ namespace LightWay
             // entityController.CreateEntity(new PositionC(new Vector2(0, 300)), new TextureC(GraphicsDevice, new Vector2(300, 100),Color.Green),new ColliderC(new Rectangle(0,300,300,100)));
             //entityController.CreateEntity(new PositionC(new Vector2(300, 200)), new TextureC(GraphicsDevice, new Vector2(100, 300), Color.Green), new ColliderC(new Rectangle(300, 200, 100, 300)));
 
-
-
-
             entityController.CreateEntity(new PositionC(0, 60), new TextureC(Content.Load<Texture2D>("Background_Mountain_1"), 3), new BackGroundC(-.9f));
             entityController.CreateEntity(new PositionC(0, 20), new TextureC(Content.Load<Texture2D>("Background_trees_3"), 3), new BackGroundC(-.8f));
             entityController.CreateEntity(new PositionC(0, 35), new TextureC(Content.Load<Texture2D>("Background_trees_2"), 3), new BackGroundC(-.7f));
@@ -119,7 +116,7 @@ namespace LightWay
             // TODO: Add your drawing code here
 
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointWrap, null, null, null, Matrix.CreateScale(new Vector3(10, 10, 0)));
-            spriteBatch.Draw(TextHelper.GenerateFontTexture("HELLOHOWAREYOU[", "default"), new Vector2(0f, 0f), Color.White);
+            spriteBatch.Draw(TextHelper.GenerateFontTexture("HELLO, HOW ARE YOU?", "default"), new Vector2(110f, 110f), Color.White);
             spriteBatch.End();
 
             Texture2D texture = new Texture2D(GraphicsDevice, 1, 1);

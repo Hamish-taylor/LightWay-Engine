@@ -46,7 +46,6 @@ namespace LightWay.Engine.ECS.Systems
             float height = Texture.Texture.Height * Texture.scale.Y;
             if (graphicsDevice.Viewport.Bounds.Contains(Pos.position.X + (camera.matrix.Translation.X * -backGround.moveRatio) + width+50,0) && !backGround.leftNeighbour)
             {
-                Console.WriteLine("fuck");
                 entityController.CreateEntityDelayed(new PositionC(new Vector2(Pos.position.X + width, Pos.position.Y)), Texture, new BackGroundC(backGround.moveRatio));
                 backGround.leftNeighbour = true;
             }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -13,5 +14,6 @@ namespace LightWay.Engine.ECS.Components
     public class UIC : IComponent
     {
         public Type type => typeof(UIC);
+
     }
 }

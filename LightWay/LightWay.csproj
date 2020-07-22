@@ -80,6 +80,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Engine\ECS\Components\BackGroundC.cs" />
+    <Compile Include="Engine\ECS\Components\ButtonC.cs" />
     <Compile Include="Engine\ECS\Components\CameraC.cs" />
     <Compile Include="Engine\ECS\Components\ComponentHelper.cs" />
     <Compile Include="Engine\ECS\Components\PanelC.cs" />
@@ -99,15 +100,16 @@
     <Compile Include="Engine\ECS\EntityController.cs" />
     <Compile Include="Engine\ECS\Systems\PhysicsSystemDEPRECATED.cs" />
     <Compile Include="Engine\ECS\Systems\UIRenderSystem.cs" />
-    <Compile Include="Engine\ECS\Tools\Font.cs" />
-    <Compile Include="Engine\ECS\Tools\TextHelper.cs" />
-    <Compile Include="Engine\ECS\Tools\UIBuilder.cs" />
-    <Compile Include="Engine\ECS\Tools\EntityGroup.cs" />
+    <Compile Include="Engine\MouseClickEventArgs.cs" />
+    <Compile Include="Engine\Tools\Font.cs" />
+    <Compile Include="Engine\Tools\TextHelper.cs" />
+    <Compile Include="Engine\Tools\UIBuilder.cs" />
+    <Compile Include="Engine\Tools\EntityGroup.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="Engine\ECS\Tools\Input.cs" />
+    <Compile Include="Engine\Tools\Input.cs" />
     <Compile Include="Engine\ECS\Systems\GravitySystem.cs" />
-    <Compile Include="Engine\ECS\Tools\Grid.cs" />
-    <Compile Include="Engine\ECS\Tools\PerlinNoise.cs" />
+    <Compile Include="Engine\Tools\Grid.cs" />
+    <Compile Include="Engine\Tools\PerlinNoise.cs" />
     <Compile Include="Engine\ECS\Components\Abstract\IComponent.cs" />
     <Compile Include="Engine\ECS\Entitys\IEntity.cs" />
     <Compile Include="Engine\ECS\Systems\Abstract\ISystem.cs" />

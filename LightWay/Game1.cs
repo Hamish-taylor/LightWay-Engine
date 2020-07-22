@@ -71,6 +71,8 @@ namespace LightWay
 
             UIBuilder.Begin(entityController);
             UIBuilder.AttachTexture(Content.Load<Texture2D>("Background_Mountain_1"), 0, 0, 1, 1);
+            UIBuilder.AttachText("FUCK YOU, BRAH", "default",Color.Blue, new Vector2(0, 0), new Vector2(1, 1));
+            UIBuilder.AttachButton(Content.Load<Texture2D>("Background_Mountain_1"),new Vector2(50,50),new Vector2(1,1));
             mainMenu = UIBuilder.Complete();
             // TODO: use this.Content to load your game content here
         }
@@ -97,6 +99,7 @@ namespace LightWay
                 Input.UpdateKeys();
                 keyUpdateTimer = 0;
             }
+            Input.CheckMouse();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == Input.getGamePadKey() || Input.getKeyBoardKey(Keys.Escape))
                 Exit();
             entityController.GeneralUpdate(gameTime);
@@ -114,9 +117,9 @@ namespace LightWay
             GraphicsDevice.Clear(Color.CornflowerBlue);
             entityController.RenderingUpdate(gameTime);
             // TODO: Add your drawing code here
-
+            
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointWrap, null, null, null, Matrix.CreateScale(new Vector3(10, 10, 0)));
-            spriteBatch.Draw(TextHelper.GenerateFontTexture("HELLO, HOW ARE YOU?", "default"), new Vector2(110f, 110f), Color.White);
+            spriteBatch.Draw(TextHelper.GenerateFontTexture("FUCK YOU, BRAH?", "default", Color.Aquamarine), new Vector2(110f, 110f), Color.White);
             spriteBatch.End();
 
             Texture2D texture = new Texture2D(GraphicsDevice, 1, 1);

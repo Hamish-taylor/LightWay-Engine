@@ -83,7 +83,7 @@ namespace LightWay.Engine.ECS.Tools
             Characters.Add(character, pos);
         }
 
-        public Texture2D CreateTextureFromString(string text,int wordPixelSpacing,int letterPixelSpacing)
+        public Texture2D CreateTextureFromString(string text,int wordPixelSpacing,int letterPixelSpacing, Color color)
         {
             float widthOfOutput = 0;
             Color[] data;
@@ -108,7 +108,7 @@ namespace LightWay.Engine.ECS.Tools
                         {
                             try
                             {
-                                data[(row) * (int)widthOfOutput + offset + col - (int)Characters[c].X] = fontTextureData[row * fontMasterTexture.Width + col];
+                                data[(row) * (int)widthOfOutput + offset + col - (int)Characters[c].X] = fontTextureData[row * fontMasterTexture.Width + col] == Color.Black ? color: Color.Transparent;
                             }
                             catch (Exception e)
                             {

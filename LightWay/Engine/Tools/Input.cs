@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+using System;
 using System.Linq;
 
 namespace LightWay.Engine.ECS.Tools
@@ -8,6 +10,14 @@ namespace LightWay.Engine.ECS.Tools
     /// </summary>
     public class Input
     {
+        public delegate void OnClickEventHandler(MouseClickEventArgs e);
+
+        private static MouseState prevMouseState;
+
+        public static event OnClickEventHandler OnClickEvent;
+
+        public static event OnClickEventHandler OnReleaseEvent;
+
         /// <summary>
         /// The prefered variable for accessing pressed keys.
         /// This isnt updated every game loop for preformance.
@@ -41,6 +51,30 @@ namespace LightWay.Engine.ECS.Tools
         public static void UpdateKeys()
         {
             keys = Keyboard.GetState().GetPressedKeys();
+        }
+
+        public static void CheckMouse()
+        {
+            MouseState mouseState = Mouse.GetState();
+            if((mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released) || (mouseState.RightButton == ButtonState.Pressed && prevMouseState.RightButton == ButtonState.Released)) {
+                OnClick(new MouseClickEventArgs(mouseState));
+            }
+
+            if ((mouseState.LeftButton == ButtonState.Released && prevMouseState.LeftButton == ButtonState.Pressed) || (mouseState.RightButton == ButtonState.Released && prevMouseState.RightButton == ButtonState.Pressed))
+            {               
+                OnRelease(new MouseClickEventArgs(mouseState));
+            }
+            prevMouseState = mouseState;
+        }
+
+        public static void OnClick(MouseClickEventArgs e)
+        {
+            OnClickEvent?.Invoke(e);
+        }
+
+        public static void OnRelease(MouseClickEventArgs e)
+        {
+            OnReleaseEvent?.Invoke(e);
         }
     }
 }

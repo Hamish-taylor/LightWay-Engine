@@ -7,6 +7,7 @@ using LightWay.Engine.ECS.Components;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LightWay.Engine.ECS.Tools;
 
 namespace LightWay
 {
@@ -32,10 +33,17 @@ namespace LightWay
             panel = new PanelC();
         }
 
-        public static void AttachButton()
+        public static void test()
+        {
+            Console.WriteLine("Fuck");
+        }
+
+
+        public static void AttachButton(Texture2D texture, Vector2 pos, Vector2 scale)
         {
             if (panel == null) throw new UIException("Complete called before Begin");
-
+            TextureC textureC = new TextureC(texture, scale);
+            entityGroup.Add(entityController.CreateEntity(textureC, new PositionC(pos), new UIC(), new ButtonC(textureC,test)));
         }
 
         public static void AttachTexture(Texture2D texture,float x , float y, float sX, float sY)
@@ -51,10 +59,16 @@ namespace LightWay
             entityGroup.Add(entityController.CreateEntity(new TextureC(texture, scale), new PositionC(pos),new UIC()));
         }
 
-        public static void AttachText()
+        public static void AttachText(string text, string font, Vector2 pos, Vector2 scale,int wordPixelSpacing = 2, int letterPixelSpacing = 1)
         {
             if (panel == null) throw new UIException("Complete called before Begin");
+            entityGroup.Add(entityController.CreateEntity(new TextureC(TextHelper.GenerateFontTexture(text, font, wordPixelSpacing, letterPixelSpacing), scale), new PositionC(pos), new UIC()));
+        }
 
+        public static void AttachText(string text, string font,Color color, Vector2 pos, Vector2 scale, int wordPixelSpacing = 2, int letterPixelSpacing = 1)
+        {
+            if (panel == null) throw new UIException("Complete called before Begin");
+            entityGroup.Add(entityController.CreateEntity(new TextureC(TextHelper.GenerateFontTexture(text, font,color , wordPixelSpacing,letterPixelSpacing), scale), new PositionC(pos), new UIC()));
         }
 
         /// <summary>

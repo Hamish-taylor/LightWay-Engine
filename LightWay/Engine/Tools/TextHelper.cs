@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +24,14 @@ namespace LightWay.Engine.ECS.Tools
             fonts.Add(name, f);
         }
 
-        public static Texture2D GenerateFontTexture(string text,string font, int wordPixelSpacing = 2,int letterPixelSpacing = 1)
+        public static Texture2D GenerateFontTexture(string text,string font, Color color, int wordPixelSpacing = 2,int letterPixelSpacing = 1)
         {
-            return fonts[font].CreateTextureFromString(text, wordPixelSpacing,letterPixelSpacing);
+            return fonts[font].CreateTextureFromString(text, wordPixelSpacing,letterPixelSpacing,color);
+        }
+
+        public static Texture2D GenerateFontTexture(string text, string font, int wordPixelSpacing = 2, int letterPixelSpacing = 1)
+        {
+            return fonts[font].CreateTextureFromString(text, wordPixelSpacing, letterPixelSpacing, Color.Black);
         }
     }
 }

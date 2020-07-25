@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace LightWay.Engine.ECS.Components
 {
-    public class PhysicsBodyC : IComponent
+    public class PhysicsBodyC 
     {
-        public Type type { get; } = typeof(PhysicsBodyC);
         public BodyType bodytype { get; private set; }
         /// <summary>
         /// This is only for initialization purpose and does not reflect the position of the body.

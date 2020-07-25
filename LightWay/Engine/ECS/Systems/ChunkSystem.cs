@@ -12,7 +12,7 @@ using LightWay.Engine.ECS.Tools;
 
 namespace LightWay.Engine.ECS.Systems
 {
-    public class ChunkSystem : System
+    public class ChunkSystem
     {        
         private int diameter;
         private int numBlocks;
@@ -20,41 +20,30 @@ namespace LightWay.Engine.ECS.Systems
         SpriteBatch chunkSpriteBatch;
         private GraphicsDevice graphicsDevice;
         public static Texture2D texture;
-        EntityController EntityController;
+        EntityController entityController;
 
         Dictionary<Vector2,ChunkC> chunks = new Dictionary<Vector2,ChunkC>();
-        public override void update(GameTime gameTime, ComponentIndexPool CIP)
+
+        ChunkC chunkBeingProcessed;
+        public ChunkSystem(GraphicsDevice graphicsDevice, EntityController entityController, ComponentIndexPool CIP, int diameter)
         {
-            IComponent first;
-            //Looping through a key set of position components
-            foreach (var p in CIP.GetAll(components[0]))
-            {
-                //get the first component
-                first = p.Value;
-                //get its entity id
-                int id = p.Key;
-                //see if the other components in components also contain a components for this entity
-                bool foundAll = true;
-                for (int i = 1; i < components.Count; i++)
-                {
-                    IComponent c = CIP.Get(components[i], id);
-                    if (c == null)
-                    {
-                        foundAll = false;
-                        break;
-                    }
-                    //if the component is attached to the entity add it to the working entity 
-                    workingEntity[components[i]] = c;
-                }
-                if (foundAll)
-                {
-                    workingEntity[components[0]] = first;
-                }
-            }
+            this.entityController = entityController;
+            this.graphicsDevice = graphicsDevice;
+            this.chunkSpriteBatch = new SpriteBatch(graphicsDevice);
+            this.diameter = diameter;
+            this.numBlocks = diameter * diameter;
+            Entity e = new Entity(entityController.GetFreeEntityId(), null);
+            CIP.InsertComponent(GenerateChunk(0, 0), e);
+        }
+
+
+        public void Update(GameTime gameTime, ComponentIndexPool CIP)
+        {
+            List<Entity> players = entityController.EntitesThatContainComponents(entityController.GetAllEntityWithComponent<PositionC>(), typeof(ControllableC));
 
             CameraC camera = ((CameraC)CIP.GetAll(typeof(CameraC)).First().Value);
             chunkSpriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.matrix);
-            Vector2 position = ((PositionC)workingEntity[typeof(PositionC)]).position;
+            Vector2 position = players[0].GetComponent<PositionC>();
             
             //The current chunk pos
             int cX = (int)((position.X / (diameter * Grid.gridPixelSize)));
@@ -69,7 +58,7 @@ namespace LightWay.Engine.ECS.Systems
                 //Console.WriteLine(cX + " " + cY);
                 chunks.TryGetValue(new Vector2(cX,cY), out c);
                 if (c == null) c = GenerateChunk(x, y);
-                workingEntity[typeof(ChunkC)] = c;
+                chunkBeingProcessed = c;
                 ProcessEntity();
             }
 
@@ -82,7 +71,7 @@ namespace LightWay.Engine.ECS.Systems
                 ChunkC c = null;
                 chunks.TryGetValue(new Vector2(cX, cY), out c);
                 if (c == null) c = GenerateChunk(x, y);
-                workingEntity[typeof(ChunkC)] = c;
+                chunkBeingProcessed = c;
                 ProcessEntity();
             }
 
@@ -96,7 +85,7 @@ namespace LightWay.Engine.ECS.Systems
                 ChunkC c = null;
                 chunks.TryGetValue(new Vector2(cX, cY), out c);
                 if (c == null) c = GenerateChunk(x, y);
-                workingEntity[typeof(ChunkC)] = c;
+                chunkBeingProcessed = c;
                 ProcessEntity();
             }
 
@@ -110,7 +99,7 @@ namespace LightWay.Engine.ECS.Systems
                 ChunkC c = null;
                 chunks.TryGetValue(new Vector2(cX, cY), out c);
                 if (c == null) c = GenerateChunk(x, y);
-                workingEntity[typeof(ChunkC)] = c;
+                chunkBeingProcessed = c;
                 ProcessEntity();
             }
 
@@ -123,7 +112,7 @@ namespace LightWay.Engine.ECS.Systems
                 ChunkC c = null;
                 chunks.TryGetValue(new Vector2(cX, cY), out c);
                 if (c == null) c = GenerateChunk(x, y);
-                workingEntity[typeof(ChunkC)] = c;
+                chunkBeingProcessed = c;
                 ProcessEntity();
             }
 
@@ -137,7 +126,7 @@ namespace LightWay.Engine.ECS.Systems
                 ChunkC c = null;
                 chunks.TryGetValue(new Vector2(cX, cY), out c);
                 if (c == null) c = GenerateChunk(x, y);
-                workingEntity[typeof(ChunkC)] = c;
+                chunkBeingProcessed = c;
                 ProcessEntity();
             }
 
@@ -151,7 +140,7 @@ namespace LightWay.Engine.ECS.Systems
                 ChunkC c = null;
                 chunks.TryGetValue(new Vector2(cX, cY), out c);
                 if (c == null) c = GenerateChunk(x, y);
-                workingEntity[typeof(ChunkC)] = c;
+                chunkBeingProcessed = c;
                 ProcessEntity();
             }
 
@@ -165,7 +154,7 @@ namespace LightWay.Engine.ECS.Systems
                 ChunkC c = null;
                 chunks.TryGetValue(new Vector2(cX, cY), out c);
                 if (c == null) c = GenerateChunk(x, y);
-                workingEntity[typeof(ChunkC)] = c;
+                chunkBeingProcessed = c;
                 ProcessEntity();
             }
 
@@ -178,30 +167,18 @@ namespace LightWay.Engine.ECS.Systems
                 ChunkC c = null;
                 chunks.TryGetValue(new Vector2(cX,cY), out c);
                 if (c == null) c = GenerateChunk(x, y);
-                workingEntity[typeof(ChunkC)] = c;
+                chunkBeingProcessed = c;
                 ProcessEntity();
             }
 
             chunkSpriteBatch.End();
 
-        }
-        public ChunkSystem(GraphicsDevice graphicsDevice,EntityController entityController, ComponentIndexPool CIP, int diameter)
-        {
-            components.Add(typeof(PositionC));
-            components.Add(typeof(ControllableC));
-            workingEntity.Add(typeof(ChunkC),null);
-            this.EntityController = entityController;
-            this.graphicsDevice = graphicsDevice;
-            this.chunkSpriteBatch = new SpriteBatch(graphicsDevice);
-            this.diameter = diameter;
-            this.numBlocks = diameter * diameter;
-            CIP.InsertComponent(GenerateChunk(0, 0), EntityController.GetFreeEntityId());
-        }
+        }     
 
         public ChunkC GenerateChunk(int x,int y)
         {
             ChunkC chunk = new ChunkC(x,y,diameter,numComponentsPerBlock);
-            IComponent[] comp = new IComponent[numBlocks*numComponentsPerBlock];
+            object[] comp = new object[numBlocks*numComponentsPerBlock];
             var rand = new Random();
             float increament = 0.01f;
             float decemalW = (x/(diameter*Grid.gridPixelSize)) * ((diameter-1) +(diameter*increament));
@@ -218,7 +195,7 @@ namespace LightWay.Engine.ECS.Systems
                    
                     if (n < 150 && h > 5)
                     {
-                        Body b = BodyFactory.CreateRectangle(EntityController.physicsWorld, ConvertUnits.ToSimUnits(Grid.gridPixelSize), ConvertUnits.ToSimUnits(Grid.gridPixelSize), 1,ConvertUnits.ToSimUnits(new Vector2(w * Grid.gridPixelSize + chunk.bounds.X, h * Grid.gridPixelSize + chunk.bounds.Y)), 0, BodyType.Static);
+                        Body b = BodyFactory.CreateRectangle(entityController.physicsWorld, ConvertUnits.ToSimUnits(Grid.gridPixelSize), ConvertUnits.ToSimUnits(Grid.gridPixelSize), 1,ConvertUnits.ToSimUnits(new Vector2(w * Grid.gridPixelSize + chunk.bounds.X, h * Grid.gridPixelSize + chunk.bounds.Y)), 0, BodyType.Static);
                         b.Friction = 0.5f;
                         b.Restitution = 0;
                         comp[((w + (h * diameter)) * numComponentsPerBlock)] = new TextureC(ChunkSystem.texture, Grid.gridPixelSize);
@@ -241,11 +218,10 @@ namespace LightWay.Engine.ECS.Systems
             return chunk;
         }
 
-        public override void ProcessEntity()
+        public  void ProcessEntity()
         {
             //Console.WriteLine(ChunkSystem.texture == null); 
-            ChunkC chunk = ((ChunkC)workingEntity[typeof(ChunkC)]);
-            IComponent[] components = chunk.Blocks;
+            object[] components = chunkBeingProcessed.Blocks;
             //TextureC texture = ((TextureC)components[10 + (10 * diameter)]);
             //Console.WriteLine("Rendering chunk: " + chunk.bounds);
             for (int h = 0; h < diameter; h++)
@@ -253,7 +229,7 @@ namespace LightWay.Engine.ECS.Systems
                 for (int w = 0; w < diameter; w++)
                 {
                     TextureC texture = ((TextureC)components[w + (h*diameter)]);
-                   if(texture != null) chunkSpriteBatch.Draw(ChunkSystem.texture, new Rectangle(w * Grid.gridPixelSize + chunk.bounds.X, h * Grid.gridPixelSize + chunk.bounds.Y, (int)texture.scale.X, (int)texture.scale.Y), Color.White);
+                   if(texture != null) chunkSpriteBatch.Draw(ChunkSystem.texture, new Rectangle(w * Grid.gridPixelSize + chunkBeingProcessed.bounds.X, h * Grid.gridPixelSize + chunkBeingProcessed.bounds.Y, (int)texture.scale.X, (int)texture.scale.Y), Color.White);
                 }
             }
         }

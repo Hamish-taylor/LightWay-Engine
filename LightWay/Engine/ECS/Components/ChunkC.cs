@@ -8,14 +8,12 @@ using System.Threading.Tasks;
 
 namespace LightWay.Engine.ECS.Components
 {
-    public class ChunkC : IComponent
+    public class ChunkC 
     {
-        public Type type { get; set; } = typeof(ChunkC);
-
         public int diameter { get; private set; }
         public int numComponentsPerBlock { get; private set; }
         public int numBlocks { get; private set; }
-        public IComponent[] Blocks { get; set; }
+        public object[] Blocks { get; set; }
         public Rectangle bounds { get; private set; } 
 
         public ChunkC(int x,int y,int diameter, int numComponentsPerBlock)

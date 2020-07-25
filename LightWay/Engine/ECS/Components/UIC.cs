@@ -11,9 +11,8 @@ namespace LightWay.Engine.ECS.Components
     /// <summary>
     /// Another bad component that shouldnt need to exist
     /// </summary>
-    public class UIC : IComponent
+    public class UIC
     {
-        public Type type => typeof(UIC);
 
     }
 }

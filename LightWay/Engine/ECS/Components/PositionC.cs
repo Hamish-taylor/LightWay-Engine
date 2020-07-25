@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace LightWay.Engine.ECS.Components
 {
-    public class PositionC : IComponent
+    public class PositionC
     {
       
         //If there is no body then this stores the position, Otherwise this just stores the initial position
@@ -18,7 +18,6 @@ namespace LightWay.Engine.ECS.Components
 
         //Always returns the position of this component
         public Vector2 position { get { return gPos(); } set { _position = value; } }
-        public Type type { get; private set; }
         public delegate Vector2 getPos();
 
         private getPos gPos;
@@ -26,21 +25,19 @@ namespace LightWay.Engine.ECS.Components
         public Body body { get; }
 
 
-        public static implicit operator Vector2(PositionC p) => p._position;
+        public static implicit operator Vector2(PositionC p) => p.position;
 
         public static explicit operator PositionC(Vector2 p) => new PositionC(p);
         public PositionC(Vector2 position)
         {
             gPos = new getPos(getPosFromPos);
             this._position = position;
-            this.type = typeof(PositionC);
         }
 
         public PositionC(float x, float y)
         {
             gPos = new getPos(getPosFromPos);
             this._position = new Vector2(x,y);
-            this.type = typeof(PositionC);
         }
         public PositionC(float x, float y, Body b)
         {
@@ -55,7 +52,6 @@ namespace LightWay.Engine.ECS.Components
                 gPos = new getPos(getPosFromPos);
             }
             this._position = new Vector2(x, y);
-            this.type = typeof(PositionC);
         }
 
         private Vector2 getPosFromPos()

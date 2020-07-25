@@ -8,10 +8,9 @@ using System.Threading.Tasks;
 
 namespace LightWay.Engine.ECS.Components
 {
-    public class TextureC : IComponent
+    public class TextureC 
     {
         public Texture2D Texture { get; set; }
-        public Type type { get; } = typeof(TextureC);
 
         public static implicit operator Texture2D(TextureC t) => t.Texture;
 

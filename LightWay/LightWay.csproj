@@ -82,14 +82,15 @@
     <Compile Include="Engine\ECS\Components\BackGroundC.cs" />
     <Compile Include="Engine\ECS\Components\ButtonC.cs" />
     <Compile Include="Engine\ECS\Components\CameraC.cs" />
-    <Compile Include="Engine\ECS\Components\ComponentHelper.cs" />
+    <Compile Include="Engine\Tools\ComponentHelper.cs" />
     <Compile Include="Engine\ECS\Components\PanelC.cs" />
     <Compile Include="Engine\ECS\Components\PhysicsBodyC.cs" />
     <Compile Include="Engine\ECS\Components\ForgroundC.cs" />
     <Compile Include="Engine\ECS\Components\TextC.cs" />
+    <Compile Include="Engine\ECS\Components\TransformC.cs" />
     <Compile Include="Engine\ECS\Components\UIC.cs" />
     <Compile Include="Engine\ECS\Systems\BackGroundSystem.cs" />
-    <Compile Include="Engine\ECS\Systems\CameraSystem.cs" />
+    <Compile Include="Engine\ECS\Systems\CameraFollowSystem.cs" />
     <Compile Include="Engine\ECS\Components\ChunkC.cs" />
     <Compile Include="Engine\ECS\Systems\ChunkSystem.cs" />
     <Compile Include="Engine\ECS\ComponentIndexPool.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Engine\ECS\Systems\UIRenderSystem.cs" />
     <Compile Include="Engine\MouseClickEventArgs.cs" />
     <Compile Include="Engine\Tools\Font.cs" />
+    <Compile Include="Engine\Tools\Raycast.cs" />
     <Compile Include="Engine\Tools\TextHelper.cs" />
     <Compile Include="Engine\Tools\UIBuilder.cs" />
     <Compile Include="Engine\Tools\EntityGroup.cs" />
@@ -111,7 +113,6 @@
     <Compile Include="Engine\Tools\Grid.cs" />
     <Compile Include="Engine\Tools\PerlinNoise.cs" />
     <Compile Include="Engine\ECS\Components\Abstract\IComponent.cs" />
-    <Compile Include="Engine\ECS\Entitys\IEntity.cs" />
     <Compile Include="Engine\ECS\Systems\Abstract\ISystem.cs" />
     <Compile Include="Engine\ECS\Entitys\Entity.cs" />
     <Compile Include="Engine\ECS\Components\PositionC.cs" />

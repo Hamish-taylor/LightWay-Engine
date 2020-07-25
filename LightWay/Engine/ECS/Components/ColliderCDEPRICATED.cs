@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace LightWay.Engine.ECS.Components
 {
-    public class ColliderCDEPRICATED : IComponent
+    public class ColliderCDEPRICATED 
     {
-        public Type type { get; } = typeof(ColliderCDEPRICATED);
         private Rectangle collider_ = new Rectangle();
         public Rectangle collider { get { return collider_; } private set { collider_ = value; } }
         public Point[] verticies { get; private set; } = new Point[4];

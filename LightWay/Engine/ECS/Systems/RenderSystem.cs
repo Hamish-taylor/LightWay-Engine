@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace LightWay.Engine.ECS.Systems
 {
-    class RenderSystem : System
+    class RenderSystem
     {
         public SpriteBatch spriteBatch { get; private set; }
 
@@ -15,31 +15,36 @@ namespace LightWay.Engine.ECS.Systems
         private Texture2D Texture;
         private Vector2 Pos;
         GraphicsDevice graphicsDevice;
-        public RenderSystem(SpriteBatch spriteBatch,GraphicsDevice graphicsDevice)
+        EntityController entityController;
+
+        List<Entity> compatableEntitys = new List<Entity>();
+        public RenderSystem(SpriteBatch spriteBatch,GraphicsDevice graphicsDevice, EntityController entityController)
         {
             this.graphicsDevice = graphicsDevice;
-            components.Add(typeof(PositionC));
-            components.Add(typeof(TextureC));
-            components.Add(typeof(ForgroundC));
+            this.entityController = entityController;
             this.spriteBatch = spriteBatch;
-            Init();
         }
-        public override void update(GameTime gameTime, ComponentIndexPool CIP)
+        public void Update(GameTime gameTime, ComponentIndexPool CIP)
         {
             CameraC camera = ((CameraC)CIP.GetAll(typeof(CameraC)).First().Value);
+            compatableEntitys = entityController.EntitesThatContainComponents(entityController.GetAllEntityWithComponent<PositionC>(), typeof(TextureC), typeof(ForgroundC));
             spriteBatch.Begin(SpriteSortMode.Texture,null,null,null,null,null,camera.matrix);
-            base.update(gameTime, CIP);
+            ProcessEntity();
             spriteBatch.End();
         }
-        public override void ProcessEntity()
+        public void ProcessEntity()
         {
-            TextureC = (TextureC)workingEntity[typeof(TextureC)];
-            Texture = TextureC;
-            Pos = (PositionC)workingEntity[typeof(PositionC)];
+            foreach (Entity e in compatableEntitys)
+            {
+                TextureC = e.GetComponent<TextureC>();
+                Texture = TextureC.Texture;
+                Pos = e.GetComponent<PositionC>();
 
-            float width = Texture.Width * (float)TextureC.scale.X;
-            float height = Texture.Height * (float)TextureC.scale.Y;
-            spriteBatch.Draw(Texture, new Rectangle((int)Pos.X, (int)Pos.Y, (int)width, (int)height), Color.White);
+                float width = Texture.Width * TextureC.scale.X;
+                float height = Texture.Height * TextureC.scale.Y;
+                spriteBatch.Draw(Texture, new Rectangle((int)Pos.X, (int)Pos.Y, (int)width, (int)height), Color.White);
+            }
+            
         }
     }
 

@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace LightWay.Engine.ECS.Components
 {
-    public class TextC : IComponent
+    public class TextC 
     {
-        public Type type => typeof(TextC);
-
         public string text { get; set; } = "";
 
         public SpriteFont font { get; set; }

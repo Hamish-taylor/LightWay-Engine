@@ -7,15 +7,12 @@ using System.Threading.Tasks;
 
 namespace LightWay.Engine.ECS.Components
 {
-    public class VelocityC : IComponent
+    public class VelocityC
     {
 
         public static implicit operator Vector2(VelocityC v) => v.velocity;
 
         public static explicit operator VelocityC(Vector2 v) => new VelocityC(v);
-
-
-        public Type type { get; } = typeof(VelocityC);
 
         public Vector2 velocity = new Vector2(0, 0);
 

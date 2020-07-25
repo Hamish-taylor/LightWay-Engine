@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace LightWay.Engine.ECS.Components
 {
-    public class ControllableC : IComponent
+    public class ControllableC 
     {
-        public Type type { get; } = typeof(ControllableC);
     }
 }

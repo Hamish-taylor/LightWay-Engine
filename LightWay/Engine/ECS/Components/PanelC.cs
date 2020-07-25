@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace LightWay.Engine.ECS.Components
 {
-    public class PanelC : IComponent
+    public class PanelC 
     {
-        public Type type => typeof(PanelC);
     }
 }

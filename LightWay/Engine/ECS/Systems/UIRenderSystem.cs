@@ -9,28 +9,32 @@ using Microsoft.Xna.Framework;
 
 namespace LightWay.Engine.ECS.Systems
 {
-    class UIRenderSystem : System
+    class UIRenderSystem
     {
         private SpriteBatch spriteBatch;
-        public UIRenderSystem(SpriteBatch spriteBatch)
+        private EntityController entityController;
+
+        List<Entity> compatableEntitys = new List<Entity>();
+        public UIRenderSystem(SpriteBatch spriteBatch, EntityController entityController)
         {
-            components.Add(typeof(TextureC));
-            components.Add(typeof(PositionC));
-            components.Add(typeof(UIC));
             this.spriteBatch = spriteBatch;
+            this.entityController = entityController;
         }
-        public override void update(GameTime gameTime, ComponentIndexPool CIP)
+        public void Update(GameTime gameTime, ComponentIndexPool CIP)
         {
+            compatableEntitys = entityController.EntitesThatContainComponents(entityController.GetAllEntityWithComponent<TextureC>(), typeof(PositionC), typeof(UIC));
             spriteBatch.Begin();
-            base.update(gameTime, CIP);
+            ProcessEntity();
             spriteBatch.End();
         }
-        public override void ProcessEntity()
+        public void ProcessEntity()
         {
-            
-            TextureC Texture = (TextureC)workingEntity[typeof(TextureC)];
-            PositionC Pos = (PositionC)workingEntity[typeof(PositionC)];        
-            spriteBatch.Draw(Texture.Texture, Pos.position);
+            foreach (Entity e in compatableEntitys)
+            {
+                TextureC Texture = e.GetComponent<TextureC>();
+                PositionC Pos = e.GetComponent<PositionC>();
+                spriteBatch.Draw(Texture.Texture, Pos.position,Color.White);
+            }         
         }
     }
 }

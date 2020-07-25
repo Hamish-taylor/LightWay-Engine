@@ -7,8 +7,11 @@ using System.Threading.Tasks;
 
 namespace LightWay.Engine.ECS.Components
 {
-    public class CameraC
+    class TransformC
     {
-        public Matrix matrix = new Matrix();
+
+        public Vector2 scale { get; set; } = Vector2.One;
+
+        public Vector2 position { get; set; } = Vector2.Zero;
     }
 }

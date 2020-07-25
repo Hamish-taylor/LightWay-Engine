@@ -2,17 +2,14 @@
 
 namespace LightWay.Engine.ECS.Systems
 {
-    class GravitySystemDEPRECATED : System
+    class GravitySystemDEPRECATED
     {
         public GravitySystemDEPRECATED()
-        {
-            components.Add(typeof(VelocityC));
-
-            Init();
+        {          
         }
-        public override void ProcessEntity()
+        public void ProcessEntity()
         {
-            ((VelocityC)workingEntity[typeof(VelocityC)]).velocity += ((GravityCDEPRECATED)workingEntity[typeof(GravityCDEPRECATED)]).gravity;
+            //((VelocityC)workingEntity[typeof(VelocityC)]).velocity += ((GravityCDEPRECATED)workingEntity[typeof(GravityCDEPRECATED)]).gravity;
         }
     }
 }

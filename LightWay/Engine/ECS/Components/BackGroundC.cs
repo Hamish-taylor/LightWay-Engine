@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace LightWay.Engine.ECS.Components
 {
-    public class BackGroundC : IComponent
+    public class BackGroundC
     {
-        public Type type { get; } = typeof(BackGroundC);
-
         public bool leftNeighbour { get; set; } = false;
 
         /// <summary>

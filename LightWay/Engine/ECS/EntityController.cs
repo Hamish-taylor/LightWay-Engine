@@ -38,9 +38,30 @@ namespace LightWay
         public List<ISystem> generalSystems { get; set; } = new List<ISystem>();
         public List<ISystem> renderingSystems { get; set; } = new List<ISystem>();
 
-        public List<IEntity> entitys { get; set; } = new List<IEntity>();
+        public List<Entity> entitys { get; set; } = new List<Entity>();
          
         public ComponentIndexPool CIP { get; private set; }
+
+
+        //SYSTEMS
+        /*
+             generalSystems.Add(new PlayerSystem());
+             generalSystems.Add(new CameraFollowSystem(graphicsDevice));*/
+
+        //RENDERING
+        BackGroundSystem backGroundSystem;
+        ChunkSystem chunkSystem;
+        RenderSystem renderSystem;
+        UIRenderSystem UIRenderSystem;
+
+        //GENERAL
+        PlayerSystem playerSystem;
+        CameraFollowSystem cameraFollowSystem;
+
+
+
+
+
 
         /// <summary>
         /// Updates any non rendering based Systems
@@ -49,10 +70,8 @@ namespace LightWay
         public void GeneralUpdate(GameTime gameTime)
         {
             physicsWorld.Step(0.0166f);
-            foreach (var s in generalSystems)
-            {
-                s.update(gameTime,CIP);
-            } 
+            playerSystem.Update(gameTime);
+            cameraFollowSystem.Update(gameTime, CIP);
         }
         /// <summary>
         /// Updates rendering based systems
@@ -61,19 +80,20 @@ namespace LightWay
         public void RenderingUpdate(GameTime gameTime)
         {
             InsertStagedEntitys();
-            foreach (var s in renderingSystems)
-            {
-                s.update(gameTime, CIP);
-            }
+            backGroundSystem.Update(gameTime, CIP);
+            chunkSystem.Update(gameTime, CIP);
+            renderSystem.Update(gameTime, CIP);
+            UIRenderSystem.Update(gameTime, CIP);
+
         }
 
         private void InsertStagedEntitys()
         {
             foreach(var entity in stagedEntitys)
             {           
-                foreach (IComponent component in entity.components)
+                foreach (object component in entity.components)
                 {
-                    CIP.InsertComponent(component, entity.id);
+                    CIP.InsertComponent(component, entity);
                 }
                 entitys.Add(entity);
             }
@@ -87,13 +107,12 @@ namespace LightWay
         private void InitSystems()
         {
             //generalSystems.Add(new PhysicsSystem(CIP,this));
-            renderingSystems.Add(new BackGroundSystem(graphicsDevice,this));
-            renderingSystems.Add(new ChunkSystem(graphicsDevice, this,CIP, 100));
-            generalSystems.Add(new PlayerSystem());
-            generalSystems.Add(new CameraFollowSystem(graphicsDevice));
-            renderingSystems.Add(new RenderSystem(new SpriteBatch(graphicsDevice), graphicsDevice));
-
-            renderingSystems.Add(new UIRenderSystem(new SpriteBatch(graphicsDevice)));
+            backGroundSystem = new BackGroundSystem(graphicsDevice,this);
+            chunkSystem = new ChunkSystem(graphicsDevice, this,CIP, 100);
+            playerSystem = new PlayerSystem(this);
+            cameraFollowSystem = new CameraFollowSystem(graphicsDevice,this);
+            renderSystem = new RenderSystem(new SpriteBatch(graphicsDevice), graphicsDevice, this);
+            UIRenderSystem = new UIRenderSystem(new SpriteBatch(graphicsDevice),this);
         }
         /// <summary>
         /// Creates a ComponentIndexPool.
@@ -107,14 +126,14 @@ namespace LightWay
         /// Creates an entity out of passed in Components
         /// </summary>
         /// <param name="components">Your entitys components</param>
-        public Entity CreateEntity(params IComponent[] components)
+        public Entity CreateEntity(params object[] components)
         {
-            Entity entity = new Entity(entityCount);
-            foreach (IComponent component in components)
+            Entity entity = new Entity(entityCount,this);
+            foreach (object component in components)
             {
-                CIP.InsertComponent(component, entityCount);
+                CIP.InsertComponent(component, entity);
 
-                entity.components.Add(component);
+                entity.components.Add(component.GetType());
             }
             entitys.Add(entity);
             entityCount++;
@@ -124,12 +143,12 @@ namespace LightWay
         /// Creates an entity out of passed in Components
         /// </summary>
         /// <param name="components">Your entitys components</param>
-        public int CreateEntityDelayed(params IComponent[] components)
+        public int CreateEntityDelayed(params object[] components)
         {
-            Entity entity = new Entity(entityCount);
-            foreach (IComponent component in components)
-            {           
-                entity.components.Add(component);
+            Entity entity = new Entity(entityCount,this);
+            foreach (object component in components)
+            {
+                entity.components.Add(component.GetType());
             }
             entitys.Add(entity);
             entityCount++;
@@ -139,6 +158,55 @@ namespace LightWay
         public int GetFreeEntityId()
         {
             return ++entityCount;
+        }
+
+       
+
+
+        //New entity methods
+        public bool TryGetComponent<T>(Entity entity, out T component)
+        {
+            component = CIP.Get<T>(entity);
+            if (component is T) return true;
+            return false;
+        }
+        public bool HasComponent<T>(Entity entity)
+        {            
+            if (CIP.Get<T>(entity) is T) return true;
+            return false;
+        }
+        public void AddComponent<T>(Entity entity,T component)
+        {
+            CIP.InsertComponent(component, entity);
+        }
+        public List<Entity> GetAllEntityWithComponent<T>()
+        {
+           return CIP.GetAllEntityWithComponent<T>();
+        }
+
+        /// <summary>
+        /// COME UP WITH A BETTER NAME
+        /// </summary>
+        /// <param name="entities">The list of entitys to search through</param>
+        /// <param name="components">The components to search for</param>
+        /// <returns></returns>
+        public List<Entity> EntitesThatContainComponents(List<Entity> entities, params Type[] components)
+        {
+            List<Entity> output = new List<Entity>(entities);
+
+            foreach (Entity e in entities)
+            {
+                foreach (var o in components)
+                {
+
+                    if (!e.components.Contains(o))
+                    {
+                        output.Remove(e);
+                        break;
+                    }
+                }
+            }
+            return output;
         }
     }
 }

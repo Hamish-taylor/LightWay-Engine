@@ -1,4 +1,5 @@
 ﻿using LightWay.Engine.ECS.Tools;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -8,9 +9,8 @@ using System.Threading.Tasks;
 
 namespace LightWay.Engine.ECS.Components
 {
-    class ButtonC : IComponent
+    class ButtonC
     {
-        public Type type => typeof(ButtonC);
 
         public delegate void doWhenClick();
         private doWhenClick method;
@@ -31,7 +31,7 @@ namespace LightWay.Engine.ECS.Components
 
         public void OnClick(MouseClickEventArgs e)
         {
-            Console.WriteLine("Click! @" + e.MouseState);
+            Console.WriteLine("Click! @" + e.MouseState);           
             method.Invoke();
         }
 

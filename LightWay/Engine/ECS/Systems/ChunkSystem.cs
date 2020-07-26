@@ -51,7 +51,6 @@ namespace LightWay.Engine.ECS.Systems
             int x = cX * diameter * Grid.gridPixelSize;
             int y = cY * diameter * Grid.gridPixelSize;
             
-
             Rectangle r = new Rectangle(x, y, diameter * Grid.gridPixelSize, diameter * Grid.gridPixelSize);
             if (x >= 0 && y >=0 && r.Contains(position))  {
                 ChunkC c = null;

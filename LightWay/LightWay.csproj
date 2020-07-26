@@ -112,15 +112,12 @@
     <Compile Include="Engine\ECS\Systems\GravitySystem.cs" />
     <Compile Include="Engine\Tools\Grid.cs" />
     <Compile Include="Engine\Tools\PerlinNoise.cs" />
-    <Compile Include="Engine\ECS\Components\Abstract\IComponent.cs" />
-    <Compile Include="Engine\ECS\Systems\Abstract\ISystem.cs" />
     <Compile Include="Engine\ECS\Entitys\Entity.cs" />
     <Compile Include="Engine\ECS\Components\PositionC.cs" />
     <Compile Include="Engine\ECS\Systems\PlayerSystem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Engine\ECS\Systems\RenderSystem.cs" />
-    <Compile Include="Engine\ECS\Systems\Abstract\System.cs" />
     <Compile Include="Engine\ECS\Components\TextureC.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -132,7 +129,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Engine\ECS\Systems\Abstract\SystemsReadMe.txt" />
     <Content Include="Fonts\Default.txt" />
     <Content Include="Icon.ico" />
     <Content Include="World Icon.ico" />

@@ -22,7 +22,7 @@ namespace LightWay.Engine.ECS.Components
             this.bounds = new Rectangle(x,y,diameter * Grid.gridPixelSize,diameter * Grid.gridPixelSize);
             this.numComponentsPerBlock = numComponentsPerBlock;
             this.numBlocks = diameter * diameter;
-            Blocks = new IComponent[numBlocks * numComponentsPerBlock];
+            Blocks = new object[numBlocks * numComponentsPerBlock];
         }
     }
 }

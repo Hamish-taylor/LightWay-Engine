@@ -34,9 +34,7 @@ namespace LightWay
             InitCIP();
             InitSystems();
         }
-        //For non rendering systems
-        public List<ISystem> generalSystems { get; set; } = new List<ISystem>();
-        public List<ISystem> renderingSystems { get; set; } = new List<ISystem>();
+
 
         public List<Entity> entitys { get; set; } = new List<Entity>();
          

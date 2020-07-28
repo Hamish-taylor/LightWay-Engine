@@ -20,7 +20,7 @@ namespace LightWay.Engine.ECS.Tools
         /// <param name="graphicsDevice">The graphics device</param>
         public static void CreateFont(Texture2D texture,string name,GraphicsDevice graphicsDevice)
         {
-            Font f = new Font(texture,graphicsDevice);
+            Font f = new Font(texture,graphicsDevice,name);
             fonts.Add(name, f);
         }
 

@@ -18,13 +18,15 @@ namespace LightWay.Engine.ECS.Tools
         public Texture2D fontMasterTexture;
 
         public GraphicsDevice GraphicsDevice;
+        public string name { get; private set; }
 
-        public Font(Texture2D fontMasterTexture, GraphicsDevice graphicsDevice)
+        public Font(Texture2D fontMasterTexture, GraphicsDevice graphicsDevice, string name)
         {
             this.fontTextureData = new Color[(int)fontMasterTexture.Width*(int)fontMasterTexture.Height];
             fontMasterTexture.GetData<Color>(this.fontTextureData);
             this.fontMasterTexture = fontMasterTexture;
             this.GraphicsDevice = graphicsDevice;
+            this.name = name;
             GenerateCharOffsets();
         }
 
@@ -36,7 +38,7 @@ namespace LightWay.Engine.ECS.Tools
             StreamReader fontFile = null;
             try
             {   // Open the text file using a stream reader.
-                using (fontFile = new StreamReader("Fonts/Default.txt"))
+                using (fontFile = new StreamReader("Fonts/"+name+".txt"))
                 {
                     // Read the stream to a string, and write the string to the console.
                     Console.WriteLine(fontFile);
@@ -69,8 +71,7 @@ namespace LightWay.Engine.ECS.Tools
             }
             catch (IOException e)
             {
-                Console.WriteLine("The file could not be read:");
-                Console.WriteLine(e.Message); 
+                throw e;
             }
         }
 
@@ -140,50 +141,7 @@ namespace LightWay.Engine.ECS.Tools
                     data[(row) * widthOfOutput + col] = Color.Transparent;
                 }
             }
-
-
         }
 
-
-        /*public Texture2D CreateTextureFromString(string text, int wordPixelSpacing, int letterPixelSpacing)
-        {
-            float widthOfOutput = 0;
-            Color[] data;
-
-            letterPixelSpacing -= letterPixelSpacing > 0 ? 1 : 0; //The font texture already has a 1 pixle spacing built in, cannot have a smaller then one space
-
-            foreach (char c in text)
-            {
-                if (c == ' ') widthOfOutput += wordPixelSpacing;
-                else widthOfOutput += Characters[c].Y - Characters[c].X;
-            }
-            widthOfOutput += text.Length * letterPixelSpacing;
-            data = new Color[(int)((widthOfOutput) * fontMasterTexture.Height)];
-            int offset = 0;
-            foreach (char c in text)
-            {
-                int x = c == ' ' ? 0 : (int)Characters[c].X;
-                int y = c == ' ' ? wordPixelSpacing - 1 : (int)Characters[c].Y;
-                for (int row = 0; row < fontMasterTexture.Height; row++)
-                {
-                    for (int col = x; col < y; col++)
-                    {
-                        try
-                        {
-                            data[(row) * (int)widthOfOutput + offset + col - x] = c == ' ' ? Color.Transparent : fontTextureData[row * fontMasterTexture.Width + col];
-                        }
-                        catch (Exception)
-                        {
-
-                        }
-                    }
-                }
-
-                offset += y - x;
-            }
-            Texture2D output = new Texture2D(GraphicsDevice, (int)widthOfOutput, fontMasterTexture.Height);
-            output.SetData<Color>(data);
-            return output;
-        }*/
     }
 }

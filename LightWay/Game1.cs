@@ -67,11 +67,11 @@ namespace LightWay
             entityController.CreateEntity(new PositionC(0, 35), new TextureC(Content.Load<Texture2D>("Background_trees_2"), 3), new BackGroundC(-.7f));
             entityController.CreateEntity(new PositionC(0, 50), new TextureC(Content.Load<Texture2D>("Background_trees_1"), 3), new BackGroundC(-.6f));
 
-            TextHelper.CreateFont(Content.Load<Texture2D>("Font_1"), "default", GraphicsDevice);
+            TextHelper.CreateFont(Content.Load<Texture2D>("Font_1"), "Default", GraphicsDevice);
 
             UIBuilder.Begin(entityController);
             UIBuilder.AttachTexture(Content.Load<Texture2D>("Background_Mountain_1"), 0, 0, 1, 1);
-            UIBuilder.AttachText("FUCK YOU, BRAH", "default",Color.Blue, new Vector2(0, 0), new Vector2(1, 1));
+            UIBuilder.AttachText("FUCK YOU,          BRAH", "Default",Color.Blue, new Vector2(0, 0), new Vector2(10, 10));
             UIBuilder.AttachButton(Content.Load<Texture2D>("Background_Mountain_1"),new Vector2(50,50),new Vector2(1,1));
             mainMenu = UIBuilder.Complete();
             // TODO: use this.Content to load your game content here
@@ -119,7 +119,6 @@ namespace LightWay
             // TODO: Add your drawing code here
             
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointWrap, null, null, null, Matrix.CreateScale(new Vector3(10, 10, 0)));
-            spriteBatch.Draw(TextHelper.GenerateFontTexture("FUCK YOU, BRAH?", "default", Color.Aquamarine), new Vector2(110f, 110f), Color.White);
             spriteBatch.End();
 
             Texture2D texture = new Texture2D(GraphicsDevice, 1, 1);

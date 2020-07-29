@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace LightWay.Engine.ECS.Components
 {
-    public class PositionC
+    public class TransformCDEPRECATED
     {
       
         //If there is no body then this stores the position, Otherwise this just stores the initial position
@@ -25,21 +25,21 @@ namespace LightWay.Engine.ECS.Components
         public Body body { get; }
 
 
-        public static implicit operator Vector2(PositionC p) => p.position;
+        public static implicit operator Vector2(TransformCDEPRECATED p) => p.position;
 
-        public static explicit operator PositionC(Vector2 p) => new PositionC(p);
-        public PositionC(Vector2 position)
+        public static explicit operator TransformCDEPRECATED(Vector2 p) => new TransformCDEPRECATED(p);
+        public TransformCDEPRECATED(Vector2 position)
         {
             gPos = new getPos(getPosFromPos);
             this._position = position;
         }
 
-        public PositionC(float x, float y)
+        public TransformCDEPRECATED(float x, float y)
         {
             gPos = new getPos(getPosFromPos);
             this._position = new Vector2(x,y);
         }
-        public PositionC(float x, float y, Body b)
+        public TransformCDEPRECATED(float x, float y, Body b)
         {
             body = b;
             if (b != null)

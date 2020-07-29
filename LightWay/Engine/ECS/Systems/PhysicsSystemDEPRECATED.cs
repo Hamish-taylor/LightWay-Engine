@@ -71,7 +71,7 @@ namespace LightWay.Engine.ECS.Systems
             this.CIP = CIP;
             this.entityController = entityController;
             components.Add(typeof(ColliderC));
-            components.Add(typeof(PositionC));
+            components.Add(typeof(TransformC));
             components.Add(typeof(VelocityC));
             start = true;
             Init();
@@ -106,7 +106,7 @@ namespace LightWay.Engine.ECS.Systems
                     {
                         if (b[i] != null && movable.collider.Intersects(((ColliderC)b[i]).collider))
                         {
-                            Colliding(movable, (ColliderC)b[i],(PositionC)CIP.Get(typeof(PositionC),move));
+                            Colliding(movable, (ColliderC)b[i],(TransformC)CIP.Get(typeof(TransformC),move));
                             Console.WriteLine("FUCK");
                         }
                     }
@@ -120,7 +120,7 @@ namespace LightWay.Engine.ECS.Systems
         /// <param name="collider1"></param>
         /// <param name="collider2"></param>
         /// <returns></returns>
-        public void Colliding(ColliderC one, ColliderC two, PositionC movePos)
+        public void Colliding(ColliderC one, ColliderC two, TransformC movePos)
         {
             Point centerOne = one.collider.Center;
             Point centerTwo = two.collider.Center;

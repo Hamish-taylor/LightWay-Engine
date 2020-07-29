@@ -113,7 +113,7 @@
     <Compile Include="Engine\Tools\Grid.cs" />
     <Compile Include="Engine\Tools\PerlinNoise.cs" />
     <Compile Include="Engine\ECS\Entitys\Entity.cs" />
-    <Compile Include="Engine\ECS\Components\PositionC.cs" />
+    <Compile Include="Engine\ECS\Components\PositionCDEPRECATED.cs" />
     <Compile Include="Engine\ECS\Systems\PlayerSystem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

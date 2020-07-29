@@ -13,7 +13,7 @@ namespace LightWay.Engine.ECS.Systems
     {
         private SpriteBatch spriteBatch;
         private EntityController entityController;
-
+        float rotation = 0;
         List<Entity> compatableEntitys = new List<Entity>();
         public UIRenderSystem(SpriteBatch spriteBatch, EntityController entityController)
         {
@@ -22,18 +22,22 @@ namespace LightWay.Engine.ECS.Systems
         }
         public void Update(GameTime gameTime, ComponentIndexPool CIP)
         {
-            compatableEntitys = entityController.EntitesThatContainComponents(entityController.GetAllEntityWithComponent<TextureC>(), typeof(PositionC), typeof(UIC));
+            compatableEntitys = entityController.EntitesThatContainComponents(entityController.GetAllEntityWithComponent<TextureC>(), typeof(TransformC), typeof(UIC));
             spriteBatch.Begin();
             ProcessEntity();
             spriteBatch.End();
         }
         public void ProcessEntity()
         {
+            
+            rotation += 0.01f;
             foreach (Entity e in compatableEntitys)
             {
                 TextureC Texture = e.GetComponent<TextureC>();
-                PositionC Pos = e.GetComponent<PositionC>();
-                spriteBatch.Draw(Texture.Texture, Pos.position,Color.White);
+                TransformC Pos = e.GetComponent<TransformC>();
+                
+                spriteBatch.Draw(Texture, new Rectangle((int)Pos.Position.X, (int)Pos.Position.Y, Texture.Texture.Width, Texture.Texture.Height), null, Color.White, rotation, new Vector2(Texture.Texture.Width / 2f, Texture.Texture.Height / 2f), SpriteEffects.None, 0f);
+
             }         
         }
     }

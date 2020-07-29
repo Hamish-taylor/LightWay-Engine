@@ -27,7 +27,7 @@ namespace LightWay.Engine.ECS.Systems
 
         public void Update(GameTime gameTime, ComponentIndexPool CIP)
         {
-            compatableEntitys = entityController.EntitesThatContainComponents(entityController.GetAllEntityWithComponent<TextureC>(), typeof(PositionC), typeof(BackGroundC));
+            compatableEntitys = entityController.GetAllEntityWithComponent<BackGroundC>();
             camera = ((CameraC)CIP.GetAll(typeof(CameraC)).First().Value);
             spriteBatch.Begin(SpriteSortMode.Texture, null, SamplerState.PointWrap, null, null, null, camera.matrix);
             ProcessEntity();
@@ -35,23 +35,24 @@ namespace LightWay.Engine.ECS.Systems
         }
         public void ProcessEntity()
         {
-            foreach(Entity e in compatableEntitys)
+            //Console.WriteLine(compatableEntitys.Count);
+            foreach (Entity e in compatableEntitys)
             {
                 TextureC Texture = e.GetComponent<TextureC>();
-                PositionC Pos = e.GetComponent<PositionC>();
+                TransformC Transform = e.GetComponent<TransformC>();
                 BackGroundC backGround = e.GetComponent<BackGroundC>();
 
-                Vector3 position = new Vector3(Pos.position.X + (camera.matrix.Translation.X * backGround.moveRatio), Pos.position.Y, 0);
+                Vector2 Position = new Vector2(Transform.Position.X + (camera.matrix.Translation.X * backGround.moveRatio), Transform.Position.Y);
 
-                float width = Texture.Texture.Width * Texture.scale.X;
-                float height = Texture.Texture.Height * Texture.scale.Y;
-                if (graphicsDevice.Viewport.Bounds.Contains(Pos.position.X + (camera.matrix.Translation.X * -backGround.moveRatio) + width + 50, 0) && !backGround.leftNeighbour)
+                float width = Texture.Texture.Width * Transform.Scale.X;
+                float height = Texture.Texture.Height * Transform.Scale.Y;
+                if (graphicsDevice.Viewport.Bounds.Contains(Transform.Position.X + (camera.matrix.Translation.X * -backGround.moveRatio) + width + 50, 0) && !backGround.leftNeighbour)
                 {
-                    entityController.CreateEntityDelayed(new PositionC(new Vector2(Pos.position.X + width, Pos.position.Y)), Texture, new BackGroundC(backGround.moveRatio));
+                    entityController.CreateEntityDelayed(Texture, new TransformC(new Vector2(Transform.Position.X + width, Transform.Position.Y)), new BackGroundC(backGround.moveRatio));
                     backGround.leftNeighbour = true;
+                    Console.WriteLine("generating background");
                 }
-
-                spriteBatch.Draw(Texture.Texture, new Rectangle((int)position.X, (int)position.Y, (int)width, (int)height), Color.White);
+                spriteBatch.Draw(Texture.Texture, new Rectangle((int)Position.X, (int)Position.Y, (int)width, (int)height), Color.White);
             }
 
         }

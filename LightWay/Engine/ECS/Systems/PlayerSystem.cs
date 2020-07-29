@@ -13,7 +13,7 @@ namespace LightWay.Engine.ECS.Systems
     class PlayerSystem 
     {
         private Keys[] keys;
-        private PositionC Position;
+        private TransformC Position;
 
         EntityController entityController;
 
@@ -26,7 +26,7 @@ namespace LightWay.Engine.ECS.Systems
 
         public void Update(GameTime gameTime)
         {
-            compatableEntitys = entityController.EntitesThatContainComponents(entityController.GetAllEntityWithComponent<PositionC>(), typeof(ControllableC));
+            compatableEntitys = entityController.EntitesThatContainComponents(entityController.GetAllEntityWithComponent<TransformC>(), typeof(ControllableC));
             ProcessEntity();
         }
         public void ProcessEntity()
@@ -34,7 +34,7 @@ namespace LightWay.Engine.ECS.Systems
 
             foreach (Entity e in compatableEntitys)
             {
-                Position = e.GetComponent<PositionC>();
+                Position = e.GetComponent<TransformC>();
                 keys = Input.keys;
 
                 Vector2 velocity = new Vector2();

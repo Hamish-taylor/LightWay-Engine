@@ -52,27 +52,28 @@ namespace LightWay
             // Create a new SpriteBatch, which can be used to draw textures
             spriteBatch = new SpriteBatch(GraphicsDevice);
             entityController.CreateEntity(new CameraC());
-            Body b = BodyFactory.CreateRectangle(entityController.physicsWorld, ConvertUnits.ToSimUnits((Grid.gridPixelSize)), ConvertUnits.ToSimUnits((Grid.gridPixelSize)), 20f, new Vector2(0, 0), 0, BodyType.Dynamic);
+            Body b = BodyFactory.CreateCircle(entityController.physicsWorld, ConvertUnits.ToSimUnits((Grid.gridPixelSize)/2), 20f, new Vector2(0, 0), BodyType.Dynamic);
+            b.FixedRotation = true;
             b.Friction = 0.1f;
             b.Restitution = 0f;
 
-            entityController.CreateEntity(new PositionC(0, 200, b), new ControllableC(), new TextureC(GraphicsDevice, new Vector2(Grid.gridPixelSize, Grid.gridPixelSize), Color.Black), new VelocityC(), new ForgroundC());
+            entityController.CreateEntity(new TransformC(new Vector2(0, 200), new Vector2(Grid.gridPixelSize, Grid.gridPixelSize), b), new ControllableC(), new TextureC(GraphicsDevice, Color.Black), new VelocityC(), new ForgroundC());
 
-            //entityController.CreateEntity(new PositionC(50, 50, BodyFactory.CreateBody(entityController.physicsWorld, new Vector2(0, 0), 0, BodyType.Static)), new TextureC(GraphicsDevice, new Vector2(50, 50), Color.Black));
-            // entityController.CreateEntity(new PositionC(new Vector2(0, 300)), new TextureC(GraphicsDevice, new Vector2(300, 100),Color.Green),new ColliderC(new Rectangle(0,300,300,100)));
-            //entityController.CreateEntity(new PositionC(new Vector2(300, 200)), new TextureC(GraphicsDevice, new Vector2(100, 300), Color.Green), new ColliderC(new Rectangle(300, 200, 100, 300)));
+            //entityController.CreateEntity(new TransformC(50, 50, BodyFactory.CreateBody(entityController.physicsWorld, new Vector2(0, 0), 0, BodyType.Static)), new TextureC(GraphicsDevice, new Vector2(50, 50), Color.Black));
+            // entityController.CreateEntity(new TransformC(new Vector2(0, 300)), new TextureC(GraphicsDevice, new Vector2(300, 100),Color.Green),new ColliderC(new Rectangle(0,300,300,100)));
+            //entityController.CreateEntity(new TransformC(new Vector2(300, 200)), new TextureC(GraphicsDevice, new Vector2(100, 300), Color.Green), new ColliderC(new Rectangle(300, 200, 100, 300)));
 
-            entityController.CreateEntity(new PositionC(0, 60), new TextureC(Content.Load<Texture2D>("Background_Mountain_1"), 3), new BackGroundC(-.9f));
-            entityController.CreateEntity(new PositionC(0, 20), new TextureC(Content.Load<Texture2D>("Background_trees_3"), 3), new BackGroundC(-.8f));
-            entityController.CreateEntity(new PositionC(0, 35), new TextureC(Content.Load<Texture2D>("Background_trees_2"), 3), new BackGroundC(-.7f));
-            entityController.CreateEntity(new PositionC(0, 50), new TextureC(Content.Load<Texture2D>("Background_trees_1"), 3), new BackGroundC(-.6f));
+            entityController.CreateEntity((0, 60), new TextureC(Content.Load<Texture2D>("Background_Mountain_1")),new TransformC(new Vector2(),new Vector2(3,3)), new BackGroundC(-.9f));
+            entityController.CreateEntity((0, 20), new TextureC(Content.Load<Texture2D>("Background_trees_3")), new TransformC(new Vector2(), new Vector2(3, 3)), new BackGroundC(-.8f));
+            entityController.CreateEntity((0, 35), new TextureC(Content.Load<Texture2D>("Background_trees_2")), new TransformC(new Vector2(), new Vector2(3, 3)), new BackGroundC(-.7f));
+            entityController.CreateEntity((0, 50), new TextureC(Content.Load<Texture2D>("Background_trees_1")), new TransformC(new Vector2(), new Vector2(3, 3)), new BackGroundC(-.6f));
 
             TextHelper.CreateFont(Content.Load<Texture2D>("Font_1"), "Default", GraphicsDevice);
 
             UIBuilder.Begin(entityController);
-            UIBuilder.AttachTexture(Content.Load<Texture2D>("Background_Mountain_1"), 0, 0, 1, 1);
-            UIBuilder.AttachText("FUCK YOU,          BRAH", "Default",Color.Blue, new Vector2(0, 0), new Vector2(10, 10));
-            UIBuilder.AttachButton(Content.Load<Texture2D>("Background_Mountain_1"),new Vector2(50,50),new Vector2(1,1));
+            UIBuilder.AttachTexture(Content.Load<Texture2D>("Background_Mountain_1"), new Vector2(300, 300), new Vector2(1, 1));
+            UIBuilder.AttachText("FUCK YOU,          BRAH", "Default",Color.Blue, new Vector2(300, 300), new Vector2(100, 100));
+            UIBuilder.AttachButton(Content.Load<Texture2D>("Background_Mountain_1"),new Vector2(500,500),new Vector2(1,1));
             mainMenu = UIBuilder.Complete();
             // TODO: use this.Content to load your game content here
         }

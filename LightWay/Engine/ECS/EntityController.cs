@@ -67,6 +67,7 @@ namespace LightWay
         /// <param name="gameTime">The games <c>GameTime</c></param>
         public void GeneralUpdate(GameTime gameTime)
         {
+            Console.WriteLine(entitys.Count);
             physicsWorld.Step(0.0166f);
             playerSystem.Update(gameTime);
             cameraFollowSystem.Update(gameTime, CIP);
@@ -94,6 +95,7 @@ namespace LightWay
                     CIP.InsertComponent(component, entity);
                 }
                 entitys.Add(entity);
+                Console.WriteLine(entity);
             }
             stagedEntitys.Clear();
         }
@@ -148,10 +150,10 @@ namespace LightWay
             {
                 entity.components.Add(component.GetType());
             }
-            entitys.Add(entity);
+            //entitys.Add(entity);
             entityCount++;
             stagedEntitys.Add(entity);
-            return entity.id;           
+            return entity;           
         }
         public int GetFreeEntityId()
         {

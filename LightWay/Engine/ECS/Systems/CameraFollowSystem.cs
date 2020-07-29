@@ -28,7 +28,7 @@ namespace LightWay.Engine.ECS.Systems
 
         public void Update(GameTime gameTime, ComponentIndexPool CIP)
         {
-            compatableEntitys = entityController.EntitesThatContainComponents(entityController.GetAllEntityWithComponent<PositionC>(), typeof(ControllableC));
+            compatableEntitys = entityController.EntitesThatContainComponents(entityController.GetAllEntityWithComponent<TransformC>(), typeof(ControllableC));
             ProcessEntity(CIP);
         }
 
@@ -37,7 +37,7 @@ namespace LightWay.Engine.ECS.Systems
             foreach(Entity e in compatableEntitys)
             {
                 Vector3 camTranslation = ((CameraC)(CIP.GetAll(typeof(CameraC)).First().Value)).matrix.Translation;
-                Vector2 playerPos = e.GetComponent<PositionC>();
+                Vector2 playerPos = e.GetComponent<TransformC>();
 
                 Vector3 translation = new Vector3(MathHelper.Lerp(camTranslation.X, -playerPos.X + (graphicsDevice.Viewport.Width / 2), cameraFollowDampening), MathHelper.Lerp(camTranslation.Y, -playerPos.Y + (graphicsDevice.Viewport.Height / 2), 1f), 0);
 

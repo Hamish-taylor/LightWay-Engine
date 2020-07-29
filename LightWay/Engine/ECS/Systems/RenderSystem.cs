@@ -13,7 +13,7 @@ namespace LightWay.Engine.ECS.Systems
 
         private TextureC TextureC;
         private Texture2D Texture;
-        private Vector2 Pos;
+        private TransformC Transform;
         GraphicsDevice graphicsDevice;
         EntityController entityController;
 
@@ -27,7 +27,7 @@ namespace LightWay.Engine.ECS.Systems
         public void Update(GameTime gameTime, ComponentIndexPool CIP)
         {
             CameraC camera = ((CameraC)CIP.GetAll(typeof(CameraC)).First().Value);
-            compatableEntitys = entityController.EntitesThatContainComponents(entityController.GetAllEntityWithComponent<PositionC>(), typeof(TextureC), typeof(ForgroundC));
+            compatableEntitys = entityController.EntitesThatContainComponents(entityController.GetAllEntityWithComponent<TransformC>(), typeof(TextureC), typeof(ForgroundC));
             spriteBatch.Begin(SpriteSortMode.Texture,null,null,null,null,null,camera.matrix);
             ProcessEntity();
             spriteBatch.End();
@@ -38,11 +38,11 @@ namespace LightWay.Engine.ECS.Systems
             {
                 TextureC = e.GetComponent<TextureC>();
                 Texture = TextureC.Texture;
-                Pos = e.GetComponent<PositionC>();
+                Transform = e.GetComponent<TransformC>();
 
-                float width = Texture.Width * TextureC.scale.X;
-                float height = Texture.Height * TextureC.scale.Y;
-                spriteBatch.Draw(Texture, new Rectangle((int)Pos.X, (int)Pos.Y, (int)width, (int)height), Color.White);
+                float width = Texture.Width * Transform.Scale.X;
+                float height = Texture.Height * Transform.Scale.Y;
+                spriteBatch.Draw(Texture, new Rectangle((int)Transform.Position.X, (int)Transform.Position.Y, (int)width, (int)height), Color.White);
             }
             
         }

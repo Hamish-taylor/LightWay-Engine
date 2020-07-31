@@ -28,7 +28,7 @@ namespace LightWay.Engine.ECS.Systems
         }
 
 
-        public void update(GameTime gameTime, ComponentIndexPool CIP)
+        public void update(GameTime gameTime)
         {
             //base.update(gameTime, CIP);
             physicsWorld.Step(0.1f);

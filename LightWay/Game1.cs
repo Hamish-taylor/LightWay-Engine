@@ -63,10 +63,10 @@ namespace LightWay
             // entityController.CreateEntity(new TransformC(new Vector2(0, 300)), new TextureC(GraphicsDevice, new Vector2(300, 100),Color.Green),new ColliderC(new Rectangle(0,300,300,100)));
             //entityController.CreateEntity(new TransformC(new Vector2(300, 200)), new TextureC(GraphicsDevice, new Vector2(100, 300), Color.Green), new ColliderC(new Rectangle(300, 200, 100, 300)));
 
-            entityController.CreateEntity((0, 60), new TextureC(Content.Load<Texture2D>("Background_Mountain_1")),new TransformC(new Vector2(),new Vector2(3,3)), new BackGroundC(-.9f));
-            entityController.CreateEntity((0, 20), new TextureC(Content.Load<Texture2D>("Background_trees_3")), new TransformC(new Vector2(), new Vector2(3, 3)), new BackGroundC(-.8f));
-            entityController.CreateEntity((0, 35), new TextureC(Content.Load<Texture2D>("Background_trees_2")), new TransformC(new Vector2(), new Vector2(3, 3)), new BackGroundC(-.7f));
-            entityController.CreateEntity((0, 50), new TextureC(Content.Load<Texture2D>("Background_trees_1")), new TransformC(new Vector2(), new Vector2(3, 3)), new BackGroundC(-.6f));
+            entityController.CreateEntityDelayed(new TextureC(Content.Load<Texture2D>("Background_Mountain_1")),new TransformC(new Vector2(0, 60), new Vector2(3,3)), new BackGroundC(-.9f));
+            entityController.CreateEntity(new TextureC(Content.Load<Texture2D>("Background_trees_3")), new TransformC(new Vector2(0, 20), new Vector2(3, 3)), new BackGroundC(-.8f));
+            entityController.CreateEntity(new TextureC(Content.Load<Texture2D>("Background_trees_2")), new TransformC(new Vector2(0, 35), new Vector2(3, 3)), new BackGroundC(-.7f));
+            entityController.CreateEntity(new TextureC(Content.Load<Texture2D>("Background_trees_1")), new TransformC(new Vector2(0, 50), new Vector2(3, 3)), new BackGroundC(-.6f));
 
             TextHelper.CreateFont(Content.Load<Texture2D>("Font_1"), "Default", GraphicsDevice);
 

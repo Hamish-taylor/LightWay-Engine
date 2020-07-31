@@ -25,7 +25,7 @@ namespace LightWay.Engine.ECS.Systems
         Dictionary<Vector2,ChunkC> chunks = new Dictionary<Vector2,ChunkC>();
 
         ChunkC chunkBeingProcessed;
-        public ChunkSystem(GraphicsDevice graphicsDevice, EntityController entityController, ComponentIndexPool CIP, int diameter)
+        public ChunkSystem(GraphicsDevice graphicsDevice, EntityController entityController, int diameter)
         {
             this.entityController = entityController;
             this.graphicsDevice = graphicsDevice;
@@ -33,15 +33,15 @@ namespace LightWay.Engine.ECS.Systems
             this.diameter = diameter;
             this.numBlocks = diameter * diameter;
             Entity e = new Entity(entityController.GetFreeEntityId(), null);
-            CIP.InsertComponent(GenerateChunk(0, 0), e);
+            entityController.AddComponent(e, GenerateChunk(0, 0));
         }
 
 
-        public void Update(GameTime gameTime, ComponentIndexPool CIP)
+        public void Update(GameTime gameTime)
         {
             List<Entity> players = entityController.EntitesThatContainComponents(entityController.GetAllEntityWithComponent<TransformC>(), typeof(ControllableC));
 
-            CameraC camera = ((CameraC)CIP.GetAll(typeof(CameraC)).First().Value);
+            CameraC camera = entityController.GetAllComponent<CameraC>()[0];
             chunkSpriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.matrix);
             Vector2 position = players[0].GetComponent<TransformC>();
             
@@ -182,7 +182,6 @@ namespace LightWay.Engine.ECS.Systems
             float increament = 0.01f;
             float decemalW = (x/(diameter*Grid.gridPixelSize)) * ((diameter-1) +(diameter*increament));
             float decemalH = (y / (diameter * Grid.gridPixelSize)) * ((diameter - 1) + (diameter * increament));
-            //Console.WriteLine(decemalW);
             
             for (int h = 0; h < diameter; h++)
             {
@@ -198,15 +197,7 @@ namespace LightWay.Engine.ECS.Systems
                         b.Friction = 0.5f;
                         b.Restitution = 0;
                         comp[((w + (h * diameter)) * numComponentsPerBlock)] = new TextureC(ChunkSystem.texture);
-                        //comp[((w + (h * diameter)) * numComponentsPerBlock)] = new TextureC(graphicsDevice, Grid.gridPixelSize, Grid.gridPixelSize, Color.FromNonPremultiplied((int)n, (int)n, (int)n, 255));
-                        //comp[((w + (h * diameter)) * numComponentsPerBlock) + 1] = new TransformC(w * Grid.gridPixelSize + chunk.bounds.X, h * Grid.gridPixelSize + chunk.bounds.Y, b);
-                    }
-                    else
-                    {
-                        //comp[((w + (h * diameter)) * numComponentsPerBlock)] = new TextureC(ChunkSystem.texture, Grid.gridPixelSize);
-                        //comp[((w + (h * diameter)) * numComponentsPerBlock)] = new TextureC(graphicsDevice, Grid.gridPixelSize, Grid.gridPixelSize, Color.FromNonPremultiplied((int)n, (int)n, (int)n, 0));
-                        //comp[((w + (h * diameter)) * numComponentsPerBlock) + 1] = new TransformC(w * Grid.gridPixelSize + chunk.bounds.X, h * Grid.gridPixelSize + chunk.bounds.Y);
-                    }                   
+                    }                             
                 }
                 decemalW = (x / (diameter * Grid.gridPixelSize)) * ((diameter - 1) + (diameter * increament));
             }
@@ -219,10 +210,8 @@ namespace LightWay.Engine.ECS.Systems
 
         public  void ProcessEntity()
         {
-            //Console.WriteLine(ChunkSystem.texture == null); 
             object[] components = chunkBeingProcessed.Blocks;
-            //TextureC texture = ((TextureC)components[10 + (10 * diameter)]);
-            //Console.WriteLine("Rendering chunk: " + chunk.bounds);
+
             for (int h = 0; h < diameter; h++)
             {
                 for (int w = 0; w < diameter; w++)

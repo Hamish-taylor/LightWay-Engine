@@ -18,17 +18,19 @@ namespace LightWay.Engine.ECS.Systems
         EntityController entityController;
 
         List<Entity> compatableEntitys = new List<Entity>();
-        public BackGroundSystem(GraphicsDevice graphicsDevice,EntityController entityController)
+        public BackGroundSystem(GraphicsDevice graphicsDevice, EntityController entityController)
         {
             this.graphicsDevice = graphicsDevice;
             this.entityController = entityController;
             spriteBatch = new SpriteBatch(graphicsDevice);
         }
 
-        public void Update(GameTime gameTime, ComponentIndexPool CIP)
+        public void Update(GameTime gameTime)
         {
             compatableEntitys = entityController.GetAllEntityWithComponent<BackGroundC>();
-            camera = ((CameraC)CIP.GetAll(typeof(CameraC)).First().Value);
+            Console.WriteLine(compatableEntitys.Count);
+
+            camera = entityController.GetAllComponent<CameraC>()[0];
             spriteBatch.Begin(SpriteSortMode.Texture, null, SamplerState.PointWrap, null, null, null, camera.matrix);
             ProcessEntity();
             spriteBatch.End();
@@ -48,9 +50,8 @@ namespace LightWay.Engine.ECS.Systems
                 float height = Texture.Texture.Height * Transform.Scale.Y;
                 if (graphicsDevice.Viewport.Bounds.Contains(Transform.Position.X + (camera.matrix.Translation.X * -backGround.moveRatio) + width + 50, 0) && !backGround.leftNeighbour)
                 {
-                    entityController.CreateEntityDelayed(Texture, new TransformC(new Vector2(Transform.Position.X + width, Transform.Position.Y)), new BackGroundC(backGround.moveRatio));
+                    entityController.CreateEntityDelayed(Texture, new TransformC(new Vector2(Transform.Position.X + width, Transform.Position.Y),new Vector2(3,3)), new BackGroundC(backGround.moveRatio));
                     backGround.leftNeighbour = true;
-                    Console.WriteLine("generating background");
                 }
                 spriteBatch.Draw(Texture.Texture, new Rectangle((int)Position.X, (int)Position.Y, (int)width, (int)height), Color.White);
             }

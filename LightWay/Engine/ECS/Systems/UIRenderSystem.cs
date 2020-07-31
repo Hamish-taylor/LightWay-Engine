@@ -20,7 +20,7 @@ namespace LightWay.Engine.ECS.Systems
             this.spriteBatch = spriteBatch;
             this.entityController = entityController;
         }
-        public void Update(GameTime gameTime, ComponentIndexPool CIP)
+        public void Update(GameTime gameTime)
         {
             compatableEntitys = entityController.EntitesThatContainComponents(entityController.GetAllEntityWithComponent<TextureC>(), typeof(TransformC), typeof(UIC));
             spriteBatch.Begin();

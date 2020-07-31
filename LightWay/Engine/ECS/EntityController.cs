@@ -18,48 +18,35 @@ namespace LightWay
     /// </summary>
     public class EntityController
     {
+
+        private Dictionary<Type, Dictionary<Entity, object>> pool { get; set; } = new Dictionary<Type, Dictionary<Entity, object>>();
         public int entityCount { get; private set; } = 0;
         private GraphicsDevice graphicsDevice { get; set; }
 
-        public ChunkC currentRenderedChunks = null;
-
-        public World physicsWorld = new World(new Vector2(0,5f));
+        public World physicsWorld = new World(new Vector2(0, 5f));
 
         public List<Entity> stagedEntitys = new List<Entity>();
 
+
         public EntityController(GraphicsDevice graphicsDevice)
         {
-            // physicsWorld.
             this.graphicsDevice = graphicsDevice;
-            InitCIP();
             InitSystems();
         }
 
 
         public List<Entity> entitys { get; set; } = new List<Entity>();
-         
-        public ComponentIndexPool CIP { get; private set; }
-
 
         //SYSTEMS
-        /*
-             generalSystems.Add(new PlayerSystem());
-             generalSystems.Add(new CameraFollowSystem(graphicsDevice));*/
+            //RENDERING
+            BackGroundSystem backGroundSystem;
+            ChunkSystem chunkSystem;
+            RenderSystem renderSystem;
+            UIRenderSystem UIRenderSystem;
 
-        //RENDERING
-        BackGroundSystem backGroundSystem;
-        ChunkSystem chunkSystem;
-        RenderSystem renderSystem;
-        UIRenderSystem UIRenderSystem;
-
-        //GENERAL
-        PlayerSystem playerSystem;
-        CameraFollowSystem cameraFollowSystem;
-
-
-
-
-
+            //GENERAL
+            PlayerSystem playerSystem;
+            CameraFollowSystem cameraFollowSystem;
 
         /// <summary>
         /// Updates any non rendering based Systems
@@ -67,10 +54,9 @@ namespace LightWay
         /// <param name="gameTime">The games <c>GameTime</c></param>
         public void GeneralUpdate(GameTime gameTime)
         {
-            Console.WriteLine(entitys.Count);
             physicsWorld.Step(0.0166f);
             playerSystem.Update(gameTime);
-            cameraFollowSystem.Update(gameTime, CIP);
+            cameraFollowSystem.Update(gameTime);
         }
         /// <summary>
         /// Updates rendering based systems
@@ -79,23 +65,22 @@ namespace LightWay
         public void RenderingUpdate(GameTime gameTime)
         {
             InsertStagedEntitys();
-            backGroundSystem.Update(gameTime, CIP);
-            chunkSystem.Update(gameTime, CIP);
-            renderSystem.Update(gameTime, CIP);
-            UIRenderSystem.Update(gameTime, CIP);
+            backGroundSystem.Update(gameTime);
+            chunkSystem.Update(gameTime);
+            renderSystem.Update(gameTime);
+            UIRenderSystem.Update(gameTime);
 
         }
 
         private void InsertStagedEntitys()
         {
-            foreach(var entity in stagedEntitys)
-            {           
+            foreach (var entity in stagedEntitys)
+            {
                 foreach (object component in entity.components)
                 {
-                    CIP.InsertComponent(component, entity);
+                    AddComponent(entity, component);
                 }
                 entitys.Add(entity);
-                Console.WriteLine(entity);
             }
             stagedEntitys.Clear();
         }
@@ -107,81 +92,89 @@ namespace LightWay
         private void InitSystems()
         {
             //generalSystems.Add(new PhysicsSystem(CIP,this));
-            backGroundSystem = new BackGroundSystem(graphicsDevice,this);
-            chunkSystem = new ChunkSystem(graphicsDevice, this,CIP, 100);
+            backGroundSystem = new BackGroundSystem(graphicsDevice, this);
+            chunkSystem = new ChunkSystem(graphicsDevice, this, 100);
             playerSystem = new PlayerSystem(this);
-            cameraFollowSystem = new CameraFollowSystem(graphicsDevice,this);
+            cameraFollowSystem = new CameraFollowSystem(graphicsDevice, this);
             renderSystem = new RenderSystem(new SpriteBatch(graphicsDevice), graphicsDevice, this);
-            UIRenderSystem = new UIRenderSystem(new SpriteBatch(graphicsDevice),this);
+            UIRenderSystem = new UIRenderSystem(new SpriteBatch(graphicsDevice), this);
         }
-        /// <summary>
-        /// Creates a ComponentIndexPool.
-        /// Every EntityController needs a CIP.
-        /// </summary>
-        private void InitCIP()
-        {
-            this.CIP = new ComponentIndexPool();
-        }
+
         /// <summary>
         /// Creates an entity out of passed in Components
         /// </summary>
         /// <param name="components">Your entitys components</param>
         public Entity CreateEntity(params object[] components)
         {
-            Entity entity = new Entity(entityCount,this);
+            Entity entity = new Entity(entityCount, this);
             foreach (object component in components)
             {
-                CIP.InsertComponent(component, entity);
-
-                entity.components.Add(component.GetType());
+                AddComponent(entity, component);
+                entity.components.Add(component);
             }
             entitys.Add(entity);
             entityCount++;
             return entity;
         }
+
         /// <summary>
         /// Creates an entity out of passed in Components
         /// </summary>
         /// <param name="components">Your entitys components</param>
         public int CreateEntityDelayed(params object[] components)
         {
-            Entity entity = new Entity(entityCount,this);
+            Entity entity = new Entity(entityCount, this);
             foreach (object component in components)
             {
-                entity.components.Add(component.GetType());
+                entity.components.Add(component);
             }
             //entitys.Add(entity);
             entityCount++;
             stagedEntitys.Add(entity);
-            return entity;           
+            return entity;
         }
         public int GetFreeEntityId()
         {
             return ++entityCount;
         }
 
-       
-
-
         //New entity methods
         public bool TryGetComponent<T>(Entity entity, out T component)
         {
-            component = CIP.Get<T>(entity);
-            if (component is T) return true;
+            if(pool.ContainsKey(typeof(T)) && pool[typeof(T)].ContainsKey(entity))
+            {
+                component = (T)pool[typeof(T)][entity];
+                return true;
+            }
+            component = default;
             return false;
         }
         public bool HasComponent<T>(Entity entity)
-        {            
-            if (CIP.Get<T>(entity) is T) return true;
+        {
+            if (TryGetComponent<T>(entity,out T component)) return true;
             return false;
         }
-        public void AddComponent<T>(Entity entity,T component)
+        public void AddComponent<T>(Entity entity, T component)
         {
-            CIP.InsertComponent(component, entity);
+            Type type = component.GetType();
+            if (pool.ContainsKey(type))
+            {
+                if (pool[type].ContainsKey(entity)) pool[type][entity] = component;
+                else
+                {
+                    pool[type].Add(entity, component);
+                }
+            }
+            else
+            {
+                Dictionary<Entity, object> d = new Dictionary<Entity, object>();
+                d.Add(entity, component);
+                pool.Add(type, d);
+            }
         }
         public List<Entity> GetAllEntityWithComponent<T>()
         {
-           return CIP.GetAllEntityWithComponent<T>();
+            return pool[typeof(T)].Keys.ToList();
         }
 
         /// <summary>
@@ -199,7 +192,7 @@ namespace LightWay
                 foreach (var o in components)
                 {
 
-                    if (!e.components.Contains(o))
+                    if (!e.ContainsComponentType(o))
                     {
                         output.Remove(e);
                         break;
@@ -207,6 +200,11 @@ namespace LightWay
                 }
             }
             return output;
+        }
+
+        public T[] GetAllComponent<T>()
+        {
+            return Array.ConvertAll(pool[typeof(T)].Values.ToArray(), item => (T)item);
         }
     }
 }

@@ -93,7 +93,6 @@
     <Compile Include="Engine\ECS\Systems\CameraFollowSystem.cs" />
     <Compile Include="Engine\ECS\Components\ChunkC.cs" />
     <Compile Include="Engine\ECS\Systems\ChunkSystem.cs" />
-    <Compile Include="Engine\ECS\ComponentIndexPool.cs" />
     <Compile Include="Engine\ECS\Components\ColliderCDEPRICATED.cs" />
     <Compile Include="Engine\ECS\Components\ControllableC.cs" />
     <Compile Include="Engine\ECS\Components\GravityCDEPRICATED.cs" />
@@ -101,7 +100,7 @@
     <Compile Include="Engine\ECS\EntityController.cs" />
     <Compile Include="Engine\ECS\Systems\PhysicsSystemDEPRECATED.cs" />
     <Compile Include="Engine\ECS\Systems\UIRenderSystem.cs" />
-    <Compile Include="Engine\MouseClickEventArgs.cs" />
+    <Compile Include="Engine\ECS\Events\MouseClickEventArgs.cs" />
     <Compile Include="Engine\Tools\Font.cs" />
     <Compile Include="Engine\Tools\Raycast.cs" />
     <Compile Include="Engine\Tools\TextHelper.cs" />

@@ -24,9 +24,9 @@ namespace LightWay.Engine.ECS.Systems
             this.entityController = entityController;
             this.spriteBatch = spriteBatch;
         }
-        public void Update(GameTime gameTime, ComponentIndexPool CIP)
+        public void Update(GameTime gameTime)
         {
-            CameraC camera = ((CameraC)CIP.GetAll(typeof(CameraC)).First().Value);
+            CameraC camera = entityController.GetAllComponent<CameraC>()[0];
             compatableEntitys = entityController.EntitesThatContainComponents(entityController.GetAllEntityWithComponent<TransformC>(), typeof(TextureC), typeof(ForgroundC));
             spriteBatch.Begin(SpriteSortMode.Texture,null,null,null,null,null,camera.matrix);
             ProcessEntity();

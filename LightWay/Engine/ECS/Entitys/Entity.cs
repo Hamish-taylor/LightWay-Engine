@@ -11,7 +11,7 @@ namespace LightWay
     public class Entity
     {
        
-        public List<Type> components { get; set; } = new List<Type>();
+        public List<Object> components { get; set; } = new List<Object>();
 
         public static implicit operator int(Entity e) => e.id;
 
@@ -87,6 +87,16 @@ namespace LightWay
 
             throw new EntityException("Entity does not contain component");
 
+        }
+
+
+        public bool ContainsComponentType(Type t)
+        {
+            foreach (var e in components)
+            {
+                if (e.GetType() == t) return true;
+            }
+            return false;
         }
     }
 

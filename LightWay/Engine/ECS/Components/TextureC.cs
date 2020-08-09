@@ -6,53 +6,42 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LightWay
+namespace LightWay.Engine.ECS.Components
 {
-    class TextureC : IComponent
+    public class TextureC 
     {
-        public Texture2D texture { get; set; }
-        public Type type { get; } = typeof(TextureC);
+        public Texture2D Texture { get; set; }
 
-        public Vector2 scale { get; set; } = new Vector2(0.2f, 0.2f);
+        public static implicit operator Texture2D(TextureC t) => t.Texture;
+
+        /// <summary>
+        /// Allows explicit conversion between Texture2d and TextureC. This will create the texture with a Scale of one 
+        /// </summary>
+        /// <param name="t"></param>
+        public static explicit operator TextureC(Texture2D t) => new TextureC(t);
+
         /// <summary>
         /// Create component from a texture
         /// </summary>
         /// <param name="texture">The texture of the component</param>
-        /// <param name="scale">The scale to render the texture (Percent of the original)</param>
-        public TextureC(Texture2D texture, Vector2 scale)
+        /// <param name="Scale">The Scale to render the texture (Percent of the original)</param>
+        public TextureC(Texture2D texture)
         {
-            this.scale = scale;
-            this.texture = texture;
-        }
-        /// <summary>
-        /// Create component from a base color
-        /// </summary>
-        /// <param name="graphicsDevice">The games GraphicsDevice</param>
-        /// <param name="scale">The scale to render the texture (Pixels)</param>
-        /// <param name="color">The base color of the texture</param>
-        public TextureC(GraphicsDevice graphicsDevice, Vector2 scale, Color color)
-        {
-            this.scale = scale;
-            texture = new Texture2D(graphicsDevice, 1, 1);
-            Color[] c = new Color[1];
-            c[0] = color;
-            texture.SetData(c);
-        }
+            this.Texture = texture;
+;        }
 
         /// <summary>
         /// Create component from a base color
         /// </summary>
         /// <param name="graphicsDevice">The games GraphicsDevice</param>
-        /// <param name="width">Width of the texture</param>
-        /// <param name="height">Height of the texture</param>
-        /// <param name="color">Color of the texture</param>
-        public TextureC(GraphicsDevice graphicsDevice, float width,float height, Color color)
+        /// <param name="Scale">The Scale to render the texture (Pixels)</param>
+        /// <param name="color">The base color of the texture</param>
+        public TextureC(GraphicsDevice graphicsDevice, Color color)
         {
-            this.scale = new Vector2(width,height);
-            texture = new Texture2D(graphicsDevice, 1, 1);
+            Texture = new Texture2D(graphicsDevice, 1, 1);
             Color[] c = new Color[1];
             c[0] = color;
-            texture.SetData(c);
+            Texture.SetData(c);
         }
     }
 }

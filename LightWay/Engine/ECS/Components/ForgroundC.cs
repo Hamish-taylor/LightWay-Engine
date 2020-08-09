@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace LightWay.Engine.ECS.Components
 {
-    public class ControllableC 
+    /// <summary>
+    /// A bad component to fix a dumb problem that i am too lazy to actually fix, oh well 
+    /// </summary>
+    public class ForgroundC
     {
     }
 }

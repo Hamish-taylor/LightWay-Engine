@@ -1,18 +1,15 @@
 ﻿using LightWay.Engine.ECS.Components;
 
-namespace LightWay
+namespace LightWay.Engine.ECS.Systems
 {
-    class GravitySystem : System
+    class GravitySystemDEPRECATED
     {
-        public GravitySystem()
-        {
-            components.Add(typeof(VelocityC));
-            components.Add(typeof(GravityC));
-            Init();
+        public GravitySystemDEPRECATED()
+        {          
         }
-        public override void ProcessEntity()
+        public void ProcessEntity()
         {
-            ((VelocityC)workingEntity[typeof(VelocityC)]).velocity += ((GravityC)workingEntity[typeof(GravityC)]).gravity;
+            //((VelocityC)workingEntity[typeof(VelocityC)]).velocity += ((GravityCDEPRECATED)workingEntity[typeof(GravityCDEPRECATED)]).gravity;
         }
     }
 }

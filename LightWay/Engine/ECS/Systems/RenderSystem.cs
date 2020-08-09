@@ -1,37 +1,50 @@
-﻿using Microsoft.Xna.Framework;
+﻿using LightWay.Engine.ECS.Components;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace LightWay
+namespace LightWay.Engine.ECS.Systems
 {
-    class RenderSystem : System
+    class RenderSystem
     {
         public SpriteBatch spriteBatch { get; private set; }
 
-        private TextureC Texture;
-        private PositionC Pos;
-        public RenderSystem(SpriteBatch spriteBatch)
+        private TextureC TextureC;
+        private Texture2D Texture;
+        private TransformC Transform;
+        GraphicsDevice graphicsDevice;
+        EntityController entityController;
+
+        List<Entity> compatableEntitys = new List<Entity>();
+        public RenderSystem(SpriteBatch spriteBatch,GraphicsDevice graphicsDevice, EntityController entityController)
         {
-            components.Add(typeof(PositionC));
-            components.Add(typeof(TextureC));
+            this.graphicsDevice = graphicsDevice;
+            this.entityController = entityController;
             this.spriteBatch = spriteBatch;
-            Init();
         }
-        public override void update(GameTime gameTime, ComponentIndexPool CIP)
+        public void Update(GameTime gameTime)
         {
-            spriteBatch.Begin();
-            base.update(gameTime, CIP);
+            CameraC camera = entityController.GetAllComponent<CameraC>()[0];
+            compatableEntitys = entityController.EntitesThatContainComponents(entityController.GetAllEntityWithComponent<TransformC>(), typeof(TextureC), typeof(ForgroundC));
+            spriteBatch.Begin(SpriteSortMode.Texture,null,null,null,null,null,camera.matrix);
+            ProcessEntity();
             spriteBatch.End();
         }
-        public override void ProcessEntity()
+        public void ProcessEntity()
         {
-            Texture = (TextureC)workingEntity[typeof(TextureC)];
-            Pos = (PositionC)workingEntity[typeof(PositionC)];
-            float width = Texture.texture.Width * (float)Texture.scale.X;
-            float height = Texture.texture.Height * (float)Texture.scale.Y;
-            spriteBatch.Draw(Texture.texture, new Rectangle((int)Pos.position.X, (int)Pos.position.Y, (int)width, (int)height), Color.White);
+            foreach (Entity e in compatableEntitys)
+            {
+                TextureC = e.GetComponent<TextureC>();
+                Texture = TextureC.Texture;
+                Transform = e.GetComponent<TransformC>();
 
+                float width = Texture.Width * Transform.Scale.X;
+                float height = Texture.Height * Transform.Scale.Y;
+                spriteBatch.Draw(Texture, new Rectangle((int)Transform.Position.X, (int)Transform.Position.Y, (int)width, (int)height), Color.White);
+            }
+            
         }
     }
 

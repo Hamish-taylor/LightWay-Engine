@@ -1,4 +1,5 @@
 ﻿using LightWay.Engine.ECS.Components;
+using LightWay.Engine.ECS.Tools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -7,43 +8,48 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LightWay
+namespace LightWay.Engine.ECS.Systems
 {
-    class PlayerSystem : System
+    class PlayerSystem 
     {
         private Keys[] keys;
-        private VelocityC Velocity;
-        private PositionC Position;
-        private ColliderC Collider;
-        public PlayerSystem()
-        {
-            components.Add(typeof(PositionC));
-            components.Add(typeof(ControllableC));
-            components.Add(typeof(VelocityC));
-            components.Add(typeof(ColliderC));
-            keys = Input.keys;
-            Init();
-        }    
-        public override void ProcessEntity()
-        {
-            keys = Input.keys;
-            Velocity = (VelocityC)workingEntity[typeof(VelocityC)];
-            Position = (PositionC)workingEntity[typeof(PositionC)];
-            Collider = (ColliderC)workingEntity[typeof(ColliderC)];
+        private TransformC Position;
 
-            if (keys.Contains(Keys.D)) Velocity.velocity.X += 1;
-            else if (keys.Contains(Keys.A)) Velocity.velocity.X -= 1;
+        EntityController entityController;
+
+        List<Entity> compatableEntitys = new List<Entity>();
+        public PlayerSystem(EntityController entityController)
+        {
+            this.entityController = entityController;
+            keys = Input.keys;
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            compatableEntitys = entityController.EntitesThatContainComponents(entityController.GetAllEntityWithComponent<TransformC>(), typeof(ControllableC));
+            ProcessEntity();
+        }
+        public void ProcessEntity()
+        {
+
+            foreach (Entity e in compatableEntitys)
+            {
+                Position = e.GetComponent<TransformC>();
+                keys = Input.keys;
+
+                Vector2 velocity = new Vector2();
+                if (keys.Contains(Keys.D)) velocity.X += 1f;
+                if (keys.Contains(Keys.A)) velocity.X -= 1f;
+                if (keys.Contains(Keys.W) && Position.body.LinearVelocity.Y == 0) velocity.Y -= 20f;
+                if (keys.Contains(Keys.S)) velocity.Y += 1f;
+
+                Position.addForce(velocity);
+            }
             
-            Console.WriteLine(Collider.colDir);
-            if ((Velocity.velocity.X > 0 && Collider.colDir.Y != 0 || Velocity.velocity.X < 0 && Collider.colDir.W !=  0)) Velocity.velocity.X = 0;
-
-            if (Velocity.velocity.Y > 0 && Collider.colDir.Z != 0 || Velocity.velocity.Y < 0 && Collider.colDir.X != 0) Velocity.velocity.Y = 0;
-            if (keys.Contains(Keys.Space) && Velocity.velocity.Y == 0) Velocity.velocity.Y -= 20;
-            Position.position += Velocity.velocity;
-
+            //Console.WriteLine(Position.position.ToString());
             //DRAG
             //PROBABLY SHOULD SPLIT THIS INTO ITS OWN SYSTEM
-            Velocity.velocity -= Velocity.velocity / 8;
+         
         }
     }
 }

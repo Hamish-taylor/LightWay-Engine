@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LightWay.Engine.ECS.Components
 {
-    public class ControllableC 
+    public class PanelC 
     {
     }
 }

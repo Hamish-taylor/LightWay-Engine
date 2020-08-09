@@ -11,7 +11,7 @@ namespace LightWay.Engine.Tools
     {
 
 
-        public static bool RayVsRect(Vector2 origin, Vector2 direction, Rectangle target, ref Vector2 contact_point, ref Vector2 contact_normal, ref float t_hit_near)
+        public static bool RayVsRect(Point origin, Vector2 direction, Rectangle target, ref Vector2 contact_point, ref Vector2 contact_normal, ref float t_hit_near)
         {
             Vector2 t_near = new Vector2((target.X - origin.X) / direction.X, (target.Y - origin.Y) / direction.Y);
             Vector2 t_far = new Vector2((target.X + target.Width - origin.X) / direction.X, (target.Y + target.Height - origin.Y) / direction.Y);
@@ -39,7 +39,7 @@ namespace LightWay.Engine.Tools
             //stopping collisions in the negitive direction
             if (t_hit_far < 0) return false;
 
-            contact_point = origin + t_hit_near * direction;
+            contact_point = origin.ToVector2() + t_hit_near * direction;
 
             if (t_near.X > t_near.Y)
                 if (direction.X < 0)
@@ -57,13 +57,23 @@ namespace LightWay.Engine.Tools
             return false;
         }
 
-     /*   public static bool DynamicRectVsRect(Rectangle main,Rectangle target, ref Vector2 contact_point, ref Vector2 contact_normal, ref float contact_time, GameTime gameTime)
+        public static bool DynamicRectVsRect(Rectangle main,Vector2 mainVel,Rectangle target,Vector2 targetVel, ref Vector2 contact_point, ref Vector2 contact_normal, ref float contact_time, GameTime gameTime)
         {
-            
+            if (mainVel.X == 0 && mainVel.Y == 0)
+                return false;
 
+            Rectangle expTarget =  new Rectangle();
+            expTarget.Location = target.Location - new Point(main.Size.X / 2,main.Size.Y/2);
+            expTarget.Size = target.Size + main.Size;
 
-        }*/
+            if(RayVsRect(main.Location + new Point(main.Size.X / 2, main.Size.Y / 2), new Vector2((float)(mainVel.X* gameTime.ElapsedGameTime.TotalMilliseconds), (float)(mainVel.Y * gameTime.ElapsedGameTime.TotalMilliseconds)), expTarget,ref contact_point,ref contact_normal,ref contact_time))
+            {
+                if (contact_time <= 1)
+                    return true;
+            }
 
+            return false;
+        }
 
     }
 }

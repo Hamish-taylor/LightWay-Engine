@@ -20,7 +20,7 @@ namespace LightWay
     {
 
         private Dictionary<Type, Dictionary<Entity, object>> pool { get; set; } = new Dictionary<Type, Dictionary<Entity, object>>();
-        public int entityCount { get; private set; } = 0;
+        public int EntityCount { get; private set; } = 0;
         private GraphicsDevice graphicsDevice { get; set; }
 
         public World physicsWorld = new World(new Vector2(0, 5f));
@@ -69,7 +69,6 @@ namespace LightWay
             chunkSystem.Update(gameTime);
             renderSystem.Update(gameTime);
             UIRenderSystem.Update(gameTime);
-
         }
 
         private void InsertStagedEntitys()
@@ -106,14 +105,14 @@ namespace LightWay
         /// <param name="components">Your entitys components</param>
         public Entity CreateEntity(params object[] components)
         {
-            Entity entity = new Entity(entityCount, this);
+            Entity entity = new Entity(EntityCount, this);
             foreach (object component in components)
             {
                 AddComponent(entity, component);
                 entity.components.Add(component);
             }
             entitys.Add(entity);
-            entityCount++;
+            EntityCount++;
             return entity;
         }
 
@@ -123,19 +122,19 @@ namespace LightWay
         /// <param name="components">Your entitys components</param>
         public int CreateEntityDelayed(params object[] components)
         {
-            Entity entity = new Entity(entityCount, this);
+            Entity entity = new Entity(EntityCount, this);
             foreach (object component in components)
             {
                 entity.components.Add(component);
             }
             //entitys.Add(entity);
-            entityCount++;
+            EntityCount++;
             stagedEntitys.Add(entity);
             return entity;
         }
         public int GetFreeEntityId()
         {
-            return ++entityCount;
+            return ++EntityCount;
         }
 
         //New entity methods
@@ -191,7 +190,6 @@ namespace LightWay
             {
                 foreach (var o in components)
                 {
-
                     if (!e.ContainsComponentType(o))
                     {
                         output.Remove(e);

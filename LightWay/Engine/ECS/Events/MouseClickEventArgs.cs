@@ -13,7 +13,7 @@ namespace LightWay.Engine
         public MouseState MouseState { get; set; }
         public MouseClickEventArgs(MouseState mouseState)
         {
-            mouseState = MouseState;
+            mouseState = Mouse.GetState();
         }
     }
 }

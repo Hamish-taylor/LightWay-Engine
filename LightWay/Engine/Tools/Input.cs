@@ -12,7 +12,7 @@ namespace LightWay.Engine.ECS.Tools
     {
         public delegate void OnClickEventHandler(MouseClickEventArgs e);
 
-        private static MouseState prevMouseState;
+        public static MouseState prevMouseState;
 
         public static event OnClickEventHandler OnClickEvent;
 
@@ -56,6 +56,7 @@ namespace LightWay.Engine.ECS.Tools
         public static void CheckMouse()
         {
             MouseState mouseState = Mouse.GetState();
+            //Console.WriteLine(mouseState.X);
             if((mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released) || (mouseState.RightButton == ButtonState.Pressed && prevMouseState.RightButton == ButtonState.Released)) {
                 OnClick(new MouseClickEventArgs(mouseState));
             }

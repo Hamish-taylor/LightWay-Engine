@@ -102,8 +102,10 @@
     <Compile Include="Engine\ECS\Systems\UIRenderSystem.cs" />
     <Compile Include="Engine\ECS\Events\MouseClickEventArgs.cs" />
     <Compile Include="Engine\Tools\Font.cs" />
+    <Compile Include="Engine\Tools\Imui.cs" />
     <Compile Include="Engine\Tools\Raycast.cs" />
     <Compile Include="Engine\Tools\TextHelper.cs" />
+    <Compile Include="Engine\Tools\TextureBuilder.cs" />
     <Compile Include="Engine\Tools\UIBuilder.cs" />
     <Compile Include="Engine\Tools\EntityGroup.cs" />
     <Compile Include="Game1.cs" />
@@ -114,6 +116,7 @@
     <Compile Include="Engine\ECS\Entitys\Entity.cs" />
     <Compile Include="Engine\ECS\Components\PositionCDEPRECATED.cs" />
     <Compile Include="Engine\ECS\Systems\PlayerSystem.cs" />
+    <Compile Include="States.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Engine\ECS\Systems\RenderSystem.cs" />
@@ -126,6 +129,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
+    <Reference Include="Test">
+      <HintPath>C:\Users\Hamis\source\repos\Test\Test\bin\Debug\netstandard2.0\Test.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Fonts\Default.txt" />

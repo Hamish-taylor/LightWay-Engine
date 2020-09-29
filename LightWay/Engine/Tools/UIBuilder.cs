@@ -43,7 +43,7 @@ namespace LightWay
         {
             if (panel == null) throw new UIException("Complete called before Begin");
             TextureC textureC = new TextureC(texture);
-            entityGroup.Add(entityController.CreateEntity(textureC, new TransformC(pos,scale), new UIC(), new ButtonC(textureC,test)));
+            entityGroup.Add(entityController.CreateEntity(textureC, new TransformC(pos,scale), new UIC(), new ButtonC(textureC,test,new Rectangle(pos.ToPoint(),new Point((int)(texture.Width * scale.X),(int)(texture.Height * scale.Y))))));
         }
         public static void AttachTexture(Texture2D texture, Vector2 pos, Vector2 scale)
         {

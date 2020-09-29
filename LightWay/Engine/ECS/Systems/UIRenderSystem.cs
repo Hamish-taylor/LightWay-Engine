@@ -23,20 +23,19 @@ namespace LightWay.Engine.ECS.Systems
         public void Update(GameTime gameTime)
         {
             compatableEntitys = entityController.EntitesThatContainComponents(entityController.GetAllEntityWithComponent<TextureC>(), typeof(TransformC), typeof(UIC));
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred,null,SamplerState.PointClamp);
             ProcessEntity();
             spriteBatch.End();
         }
         public void ProcessEntity()
         {
             
-            rotation += 0.01f;
             foreach (Entity e in compatableEntitys)
             {
                 TextureC Texture = e.GetComponent<TextureC>();
                 TransformC Pos = e.GetComponent<TransformC>();
-                
-                spriteBatch.Draw(Texture, new Rectangle((int)Pos.Position.X, (int)Pos.Position.Y, Texture.Texture.Width, Texture.Texture.Height), null, Color.White, rotation, new Vector2(Texture.Texture.Width / 2f, Texture.Texture.Height / 2f), SpriteEffects.None, 0f);
+                if(e.Active)
+                spriteBatch.Draw(Texture, new Rectangle((int)Pos.Position.X, (int)Pos.Position.Y, (int)(Texture.Texture.Width*Pos.Scale.X), (int)(Texture.Texture.Height*Pos.Scale.Y)), null, Color.White, 0,Vector2.Zero, SpriteEffects.None, 0f);
 
             }         
         }

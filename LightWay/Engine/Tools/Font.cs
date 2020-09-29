@@ -125,7 +125,7 @@ namespace LightWay.Engine.ECS.Tools
                 } else
                 {
                     InsertSpace(data, offset, (int)widthOfOutput, wordPixelSpacing);
-                    offset += wordPixelSpacing;
+                    offset += wordPixelSpacing+1;
                 }            
             }
             Texture2D output = new Texture2D(GraphicsDevice, (int)widthOfOutput, fontMasterTexture.Height);

@@ -10,11 +10,16 @@ using System.Threading;
 using LightWay.Engine.ECS.Tools;
 using LightWay.Engine.ECS.Systems;
 using LightWay.Engine.ECS.Components;
+using Test;
+using System.Runtime.InteropServices;
+using LightWay.Engine.Tools;
 
 namespace LightWay
 {
+    
     public class Game1 : Game
     {
+        public static GraphicsDevice graphicsDevice = null;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         EntityController entityController;
@@ -23,9 +28,11 @@ namespace LightWay
         public EntityGroup mainMenu = null;
         public Game1()
         {
+            
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             Window.AllowUserResizing = true;
+            IsMouseVisible = true;
             // Window.ClientSizeChanged += OnResize;
         }
 
@@ -39,7 +46,9 @@ namespace LightWay
         {
             // TODO: Add your initialization logic here
             entityController = new EntityController(GraphicsDevice);
+            graphicsDevice = GraphicsDevice;
             base.Initialize();
+            Imui.Init();
         }
 
         /// <summary>
@@ -68,13 +77,13 @@ namespace LightWay
             entityController.CreateEntity(new TextureC(Content.Load<Texture2D>("Background_trees_2")), new TransformC(new Vector2(0, 35), new Vector2(3, 3)), new BackGroundC(-.7f));
             entityController.CreateEntity(new TextureC(Content.Load<Texture2D>("Background_trees_1")), new TransformC(new Vector2(0, 50), new Vector2(3, 3)), new BackGroundC(-.6f));
 
-            TextHelper.CreateFont(Content.Load<Texture2D>("Font_1"), "Default", GraphicsDevice);
+            TextHelper.CreateFont(Content.Load<Texture2D>("Font_1"), "default", GraphicsDevice);
 
-            UIBuilder.Begin(entityController);
+           /* UIBuilder.Begin(entityController);
             UIBuilder.AttachTexture(Content.Load<Texture2D>("Background_Mountain_1"), new Vector2(300, 300), new Vector2(1, 1));
-            UIBuilder.AttachText("FUCK YOU,          BRAH", "Default",Color.Blue, new Vector2(300, 300), new Vector2(100, 100));
+            UIBuilder.AttachText("FUCK YOU,          BRAH", "default",Color.Blue, new Vector2(300, 300), new Vector2(10, 10));
             UIBuilder.AttachButton(Content.Load<Texture2D>("Background_Mountain_1"),new Vector2(500,500),new Vector2(1,1));
-            mainMenu = UIBuilder.Complete();
+            mainMenu = UIBuilder.Complete();*/
             // TODO: use this.Content to load your game content here
         }
 
@@ -92,8 +101,12 @@ namespace LightWay
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        /// 
         protected override void Update(GameTime gameTime)
         {
+            Console.WriteLine(TestClass.Number());
+            if (States.MainMenue == States.Dead) Console.WriteLine("Hello");
+            else Console.WriteLine("Goodbye");
             keyUpdateTimer -= gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
             if (keyUpdateTimer < -.1f)
             {
@@ -114,7 +127,7 @@ namespace LightWay
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
-        {
+        {         
             GraphicsDevice.Clear(Color.CornflowerBlue);
             entityController.RenderingUpdate(gameTime);
             // TODO: Add your drawing code here
@@ -130,6 +143,10 @@ namespace LightWay
 
             spriteBatch.End();
             base.Draw(gameTime);
+            //Drawing ui
+            Imui.Begin();
+            if (Imui.Button(10, 10, "PRESS ME", 10, 10, 1, 1)) Imui.Text(100, 100, "THANKS", 10, 10);
+            Imui.End();
         }
     }
 

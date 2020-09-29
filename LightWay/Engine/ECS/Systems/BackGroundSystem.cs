@@ -28,7 +28,6 @@ namespace LightWay.Engine.ECS.Systems
         public void Update(GameTime gameTime)
         {
             compatableEntitys = entityController.GetAllEntityWithComponent<BackGroundC>();
-            Console.WriteLine(compatableEntitys.Count);
 
             camera = entityController.GetAllComponent<CameraC>()[0];
             spriteBatch.Begin(SpriteSortMode.Texture, null, SamplerState.PointWrap, null, null, null, camera.matrix);
